@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
     apple: "/icons/icon-192x192.png",
   },
-  appleWebApp: {
+  appleWebApp: { 
     capable: true,
     statusBarStyle: "default",
     title: "Habit Tracker",
