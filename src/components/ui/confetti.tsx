@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import confetti from 'canvas-confetti';
+import confetti from "canvas-confetti";
 
 export function triggerConfetti() {
   const count = 200;
   const defaults = {
     origin: { y: 0.7 },
-    zIndex: 9999,
+    zIndex: 50,
   };
 
   function fire(particleRatio: number, opts: confetti.Options) {

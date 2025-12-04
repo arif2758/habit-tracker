@@ -45,6 +45,7 @@ export function CreateHabitDialog({
   const [selectedColor, setSelectedColor] = React.useState<HabitColor>("blue");
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">("daily");
   const [description, setDescription] = React.useState("");
+  const [targetDays, setTargetDays] = React.useState<number[]>([]);
 
   const handleTemplateSelect = (template: {
     name: string;
@@ -87,6 +88,7 @@ export function CreateHabitDialog({
       color: selectedColor,
       icon: CATEGORY_CONFIG[category].icon,
       frequency: frequency,
+      ...(frequency === "weekly" && { targetDays }),
     };
 
     if (!habitData.name.trim()) return;
@@ -97,6 +99,7 @@ export function CreateHabitDialog({
     setSelectedColor("blue");
     setFrequency("daily");
     setDescription("");
+    setTargetDays([]);
     setViewMode("templates");
     onOpenChange(false);
   };
@@ -229,6 +232,35 @@ export function CreateHabitDialog({
                   <SelectItem value="weekly">Specific Days</SelectItem>
                 </SelectContent>
               </Select>
+
+              {/* Day Selector for Weekly */}
+              {frequency === "weekly" && (
+                <div className="grid grid-cols-7 gap-2 mt-2">
+                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                    (day, index) => (
+                      <button
+                        key={day}
+                        type="button"
+                        onClick={() => {
+                          setTargetDays((prev) =>
+                            prev.includes(index)
+                              ? prev.filter((d) => d !== index)
+                              : [...prev, index]
+                          );
+                        }}
+                        className={cn(
+                          "p-2 rounded-lg text-xs font-medium transition-colors",
+                          targetDays.includes(index)
+                            ? "bg-primary text-primary-foreground"
+                            : "border border-border hover:bg-muted"
+                        )}
+                      >
+                        {day}
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Category */}

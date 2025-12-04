@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { HabitProvider } from "@/contexts/HabitContext";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { RegisterSW } from "@/components/RegisterSW";
@@ -36,7 +36,8 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   icons: {
-    icon: "/icons/icon-192x192.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
     apple: "/icons/icon-192x192.png",
   },
   appleWebApp: {

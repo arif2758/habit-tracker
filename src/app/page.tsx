@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useHabits } from "@/contexts/HabitContext";
 import { HabitList } from "@/components/habits/HabitList";
 import { WeekCalendar } from "@/components/calendar/WeekCalendar";
@@ -47,13 +48,17 @@ export default function DashboardPage() {
     <div className="space-y-6 max-w-2xl mx-auto pb-24">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-          <Settings className="h-6 w-6" />
-        </button>
+        <Link href="/settings">
+          <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+            <Settings className="h-6 w-6" />
+          </button>
+        </Link>
         <h1 className="text-xl font-semibold">Today</h1>
-        <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-          <Calendar className="h-6 w-6" />
-        </button>
+        <Link href="/calendar">
+          <button className="p-2 hover:bg-muted rounded-lg transition-colors">
+            <Calendar className="h-6 w-6" />
+          </button>
+        </Link>
       </div>
 
       {/* Week Calendar */}

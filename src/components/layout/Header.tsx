@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-import { Menu, Plus, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
@@ -42,9 +43,13 @@ export function Header({ onAddHabit }: HeaderProps) {
             >
               <SheetHeader className="border-b border-border/50 p-4 text-left">
                 <SheetTitle className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-primary to-purple-600 text-primary-foreground shadow-md">
-                    <Sparkles className="h-4 w-4" />
-                  </div>
+                  <Image
+                    src="/icons/icon-512x512.png"
+                    alt="Habit Tracker Logo"
+                    width={32}
+                    height={32}
+                    className="rounded-lg"
+                  />
                   Habit Tracker
                 </SheetTitle>
               </SheetHeader>
@@ -57,11 +62,13 @@ export function Header({ onAddHabit }: HeaderProps) {
             href="/"
             className="flex items-center gap-2 transition-transform hover:scale-105 active:scale-95"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-primary to-purple-600 shadow-md shadow-primary/20">
-              <span className="text-lg font-bold text-primary-foreground">
-                H
-              </span>
-            </div>
+            <Image
+              src="/icons/icon-512x512.png"
+              alt="Habit Tracker Logo"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
             <span className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-foreground to-foreground/70">
               Habit Tracker
             </span>

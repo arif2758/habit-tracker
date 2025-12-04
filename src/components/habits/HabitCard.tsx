@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { MoreVertical, Trash2, Edit, Archive } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +15,7 @@ import {
 
 import { useHabits } from "@/contexts/HabitContext";
 import { COLOR_CONFIG } from "@/lib/constants";
+import { getIcon } from "@/components/icons";
 import { getToday } from "@/lib/utils";
 import type { Habit } from "@/lib/types";
 import { HabitDetailModal } from "./HabitDetailModal";
@@ -73,7 +74,11 @@ export function HabitCard({ habit }: HabitCardProps) {
             {/* Habit Info */}
             <div className="flex-1 space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-xl">{habit.icon}</span>
+                <span className="text-xl">
+                  {React.createElement(getIcon(habit.icon), {
+                    className: "h-5 w-5",
+                  })}
+                </span>
                 <h3 className="font-semibold leading-none tracking-tight">
                   {habit.name}
                 </h3>

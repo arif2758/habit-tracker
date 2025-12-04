@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, Plus } from "lucide-react";
-import { cn } from "@/lib/utils";
 import type { HabitCategory } from "@/lib/types";
 
 interface HabitTemplate {
@@ -105,13 +104,10 @@ export function HabitTemplates({
                   <button
                     key={template.name}
                     onClick={() => onSelectTemplate(template)}
-                    className="w-full flex items-center justify-between p-4 hover:bg-muted/30 transition-colors group"
+                    className="w-full flex items-center gap-3 p-4 hover:bg-muted/30 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{template.emoji}</span>
-                      <span className="font-medium">{template.name}</span>
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-foreground group-hover:translate-x-1 transition-all" />
+                    <span className="text-2xl">{template.emoji}</span>
+                    <span className="font-medium">{template.name}</span>
                   </button>
                 ))}
               </div>

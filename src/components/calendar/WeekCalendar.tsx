@@ -33,14 +33,15 @@ export function WeekCalendar({
               onClick={() => onDateSelect(day)}
               className={cn(
                 "flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-200",
-                "hover:bg-muted/50",
+                "hover:bg-muted hover:shadow-md",
                 isSelected &&
                   isTodayDate &&
-                  "bg-primary text-primary-foreground shadow-lg scale-105",
+                  "bg-primary text-primary-foreground shadow-lg scale-105 hover:bg-primary/90",
                 isSelected &&
                   !isTodayDate &&
-                  "ring-2 ring-primary bg-background",
-                !isSelected && "bg-background border border-border"
+                  "ring-2 ring-primary bg-muted/30 hover:bg-muted/50",
+                !isSelected &&
+                  "bg-card border border-border hover:border-primary/50"
               )}
             >
               <span className="text-xs font-medium uppercase mb-1 opacity-60">

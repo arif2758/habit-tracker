@@ -202,3 +202,16 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400 dark:to-purple-300;
   }
 }
+
+/* Toaster Styling */
+[data-sonner-toaster] {
+  --normal-bg: var(--popover) !important;
+  --normal-text: var(--popover-foreground) !important;
+  --normal-border: var(--border) !important;
+}
+
+[data-sonner-toast] {
+  background: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--popover-foreground) !important;
+}

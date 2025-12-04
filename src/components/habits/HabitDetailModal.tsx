@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
 import { CircularProgress } from "@/components/ui/circular-progress";
 import type { Habit } from "@/lib/types";
 import { useStatistics } from "@/hooks/useStatistics";
+import { getIcon } from "@/components/icons";
 import {
   format,
   startOfMonth,
@@ -96,17 +97,13 @@ export function HabitDetailModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{habit.icon}</span>
-              <DialogTitle>{habit.name}</DialogTitle>
-            </div>
-            <button
-              onClick={() => onOpenChange(false)}
-              className="rounded-lg p-1 hover:bg-muted transition-colors"
-            >
-              <X className="h-5 w-5" />
-            </button>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">
+              {React.createElement(getIcon(habit.icon), {
+                className: "h-6 w-6",
+              })}
+            </span>
+            <DialogTitle>{habit.name}</DialogTitle>
           </div>
         </DialogHeader>
 
