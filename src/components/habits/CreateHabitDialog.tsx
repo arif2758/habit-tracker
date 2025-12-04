@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import { getIcon } from "@/components/icons";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +25,7 @@ import {
 import { HabitTemplates } from "./HabitTemplates";
 import { useHabits } from "@/contexts/HabitContext";
 import { CATEGORY_CONFIG, COLOR_OPTIONS } from "@/lib/constants";
+import { HABIT_ICONS } from "@/lib/icon-constants";
 import type { HabitCategory, HabitColor } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -37,12 +40,13 @@ export function CreateHabitDialog({
   open,
   onOpenChange,
 }: CreateHabitDialogProps) {
-  const { addHabit } = useHabits();
+  const { addHabit, habits } = useHabits();
   const formRef = useRef<HTMLFormElement>(null);
 
   const [viewMode, setViewMode] = useState<ViewMode>("templates");
   const [category, setCategory] = React.useState<HabitCategory>("health");
   const [selectedColor, setSelectedColor] = React.useState<HabitColor>("blue");
+  const [selectedIcon, setSelectedIcon] = React.useState<string>("Dumbbell");
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">("daily");
   const [description, setDescription] = React.useState("");
   const [targetDays, setTargetDays] = React.useState<number[]>([]);
@@ -52,13 +56,27 @@ export function CreateHabitDialog({
     emoji: string;
     category: HabitCategory;
   }) => {
+    // Check for duplicate habit name
+    const isDuplicate = habits.some(
+      (h) =>
+        h.name.toLowerCase().trim() === template.name.toLowerCase().trim() &&
+        !h.archived
+    );
+
+    if (isDuplicate) {
+      toast.error("Habit already exists", {
+        description: `A habit with the name "${template.name}" already exists.`,
+      });
+      return;
+    }
+
     // Directly create the habit with default values
     const habitData = {
       name: template.name,
       description: `Daily ${template.name} habit`,
       category: template.category,
       color: "blue" as HabitColor,
-      icon: CATEGORY_CONFIG[template.category].icon,
+      icon: template.emoji, // Use emoji as icon identifier
       frequency: "daily" as const,
     };
 
@@ -86,17 +104,32 @@ export function CreateHabitDialog({
       description: description,
       category: category,
       color: selectedColor,
-      icon: CATEGORY_CONFIG[category].icon,
+      icon: selectedIcon,
       frequency: frequency,
       ...(frequency === "weekly" && { targetDays }),
     };
 
     if (!habitData.name.trim()) return;
 
+    // Check for duplicate habit name
+    const isDuplicate = habits.some(
+      (h) =>
+        h.name.toLowerCase().trim() === habitData.name.toLowerCase().trim() &&
+        !h.archived
+    );
+
+    if (isDuplicate) {
+      toast.error("Habit already exists", {
+        description: `A habit with the name "${habitData.name}" already exists.`,
+      });
+      return;
+    }
+
     addHabit(habitData);
     formRef.current?.reset();
     setCategory("health");
     setSelectedColor("blue");
+    setSelectedIcon("Dumbbell");
     setFrequency("daily");
     setDescription("");
     setTargetDays([]);
@@ -211,6 +244,35 @@ export function CreateHabitDialog({
                       aria-label={`Select ${color.value} color`}
                     />
                   ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Icon Picker */}
+            <div className="grid gap-2">
+              <Label className="text-base font-semibold">Icon</Label>
+              <div className="p-4 rounded-lg border">
+                <div className="grid grid-cols-8 gap-2">
+                  {HABIT_ICONS.map((iconName) => {
+                    const IconComponent = getIcon(iconName);
+                    return (
+                      <button
+                        key={iconName}
+                        type="button"
+                        onClick={() => setSelectedIcon(iconName)}
+                        className={cn(
+                          "p-2 rounded-lg transition-all hover:bg-muted",
+                          selectedIcon === iconName &&
+                            "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2"
+                        )}
+                        aria-label={`Select ${iconName} icon`}
+                      >
+                        {React.createElement(IconComponent, {
+                          className: "h-5 w-5",
+                        })}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>

@@ -39,7 +39,7 @@ const habitTemplates: Record<string, HabitTemplate[]> = {
   Productivity: [
     { name: "Deep Work", emoji: "💻", category: "productivity" },
     { name: "Plan Tomorrow", emoji: "📅", category: "productivity" },
-    { name: "Clean Workspace", emoji: "🧹", category: "lifestyle" },
+    { name: "Clean Workspace", emoji: "🧹", category: "social" },
   ],
 };
 

@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Flame } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useHabits } from '@/contexts/HabitContext';
+import React from "react";
+import { Flame } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useHabits } from "@/contexts/HabitContext";
 
 export function StreakCard() {
   const { habits, getHabitStats } = useHabits();
 
   const bestStreak = habits
-    .filter(h => !h.archived)
-    .map(h => ({
+    .filter((h) => !h.archived)
+    .map((h) => ({
       habit: h,
-      streak: getHabitStats(h.id)?.currentStreak || 0,
+      streak: getHabitStats(h._id)?.currentStreak || 0,
     }))
     .sort((a, b) => b.streak - a.streak)[0];
 

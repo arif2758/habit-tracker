@@ -1,15 +1,17 @@
 export interface Habit {
-  id: string;
+  _id: string; // MongoDB ID
+  id?: string; // For backward compatibility
   name: string;
   description?: string;
   category: HabitCategory;
   color: HabitColor;
   icon: string;
-  frequency: 'daily' | 'weekly' | 'custom';
+  frequency: "daily" | "weekly";
   targetDays?: number[]; // 0 = Sunday, 1 = Monday, etc.
   createdAt: string;
   updatedAt: string;
   completions: HabitCompletion[];
+  streak?: number;
   archived: boolean;
 }
 
@@ -19,28 +21,25 @@ export interface HabitCompletion {
   note?: string;
 }
 
-export type HabitCategory = 
-  | 'health' 
-  | 'learning' 
-  | 'productivity' 
-  | 'mindfulness' 
-  | 'creativity' 
-  | 'lifestyle'
-  | 'other';
+export type HabitCategory =
+  | "health"
+  | "learning"
+  | "productivity"
+  | "mindfulness"
+  | "creativity"
+  | "social";
 
-export type HabitColor = 
-  | 'emerald' 
-  | 'blue' 
-  | 'purple' 
-  | 'pink' 
-  | 'orange' 
-  | 'cyan'
-  | 'red'
-  | 'yellow';
+export type HabitColor =
+  | "blue"
+  | "green"
+  | "purple"
+  | "orange"
+  | "pink"
+  | "yellow";
 
 export interface AppSettings {
-  theme: 'light' | 'dark' | 'system';
-  weekStart: 'sunday' | 'monday';
+  theme: "light" | "dark" | "system";
+  weekStart: "sunday" | "monday";
   notifications: boolean;
 }
 

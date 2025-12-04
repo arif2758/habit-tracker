@@ -1,0 +1,77 @@
+// Popular icons for habits
+export const HABIT_ICONS = [
+  // Health & Fitness
+  "Dumbbell",
+  "Heart",
+  "Activity",
+  "Apple",
+  "Bike",
+  "Footprints",
+  "Zap",
+  // Learning & Productivity
+  "BookOpen",
+  "GraduationCap",
+  "Lightbulb",
+  "Target",
+  "TrendingUp",
+  "Clock",
+  "Calendar",
+  // Mindfulness & Wellness
+  "Brain",
+  "Smile",
+  "Sun",
+  "Moon",
+  "Coffee",
+  "Leaf",
+  "Sparkles",
+  // Creativity & Hobbies
+  "Palette",
+  "Music",
+  "Camera",
+  "Pen",
+  "Brush",
+  "Film",
+  "Headphones",
+  // Social & Lifestyle
+  "Users",
+  "MessageCircle",
+  "Phone",
+  "Home",
+  "ShoppingBag",
+  "Gift",
+  "Star",
+  // Food & Nutrition
+  "Utensils",
+  "Pizza",
+  "Salad",
+  "Droplet",
+  "Wine",
+  "IceCream",
+  // Other
+  "Check",
+  "Plus",
+  "Award",
+  "Flag",
+  "Rocket",
+  "Diamond",
+  "Crown",
+];
+
+export const ICON_CATEGORIES = {
+  "Health & Fitness": [
+    "Dumbbell",
+    "Heart",
+    "Activity",
+    "Apple",
+    "Bike",
+    "Footprints",
+    "Zap",
+  ],
+  Learning: ["BookOpen", "GraduationCap", "Lightbulb", "Brain", "Target"],
+  Productivity: ["Clock", "Calendar", "TrendingUp", "Target", "Check"],
+  Mindfulness: ["Brain", "Smile", "Sun", "Moon", "Leaf", "Sparkles"],
+  Creativity: ["Palette", "Music", "Camera", "Pen", "Brush", "Film"],
+  Social: ["Users", "MessageCircle", "Phone", "Home", "Gift", "Star"],
+  Food: ["Utensils", "Apple", "Pizza", "Coffee", "Droplet", "Wine"],
+  Other: ["Award", "Flag", "Rocket", "Diamond", "Crown", "Plus"],
+};

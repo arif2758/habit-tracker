@@ -44,14 +44,14 @@ export function EditHabitDialog({
     habit?.category || "health"
   );
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">(
-    habit?.frequency === "custom" ? "daily" : habit?.frequency || "daily"
+    habit?.frequency || "daily"
   );
 
   // ✅ Reset state when dialog opens with new habit
   React.useEffect(() => {
     if (open && habit) {
       setCategory(habit.category);
-      setFrequency(habit.frequency === "custom" ? "daily" : habit.frequency);
+      setFrequency(habit.frequency);
     }
   }, [open, habit]);
 
@@ -75,7 +75,7 @@ export function EditHabitDialog({
       return;
     }
 
-    updateHabit(habit.id, updates);
+    updateHabit(habit._id, updates);
     onOpenChange(false);
   };
 

@@ -1,21 +1,28 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Calendar, TrendingUp, Flame, Edit, Archive, Trash2 } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Calendar,
+  TrendingUp,
+  Flame,
+  Edit,
+  Archive,
+  Trash2,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { HabitCalendar } from './HabitCalendar';
-import { EditHabitDialog } from './EditHabitDialog';
-import { useHabits } from '@/contexts/HabitContext';
-import { CATEGORY_CONFIG } from '@/lib/constants';
-import type { Habit } from '@/lib/types';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { HabitCalendar } from "./HabitCalendar";
+import { EditHabitDialog } from "./EditHabitDialog";
+import { useHabits } from "@/contexts/HabitContext";
+import { CATEGORY_CONFIG } from "@/lib/constants";
+import type { Habit } from "@/lib/types";
 
 interface HabitDetailDialogProps {
   habit: Habit | null;
@@ -23,27 +30,32 @@ interface HabitDetailDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function HabitDetailDialog({ habit, open, onOpenChange }: HabitDetailDialogProps) {
-  const { toggleCompletion, deleteHabit, archiveHabit, getHabitStats } = useHabits();
+export function HabitDetailDialog({
+  habit,
+  open,
+  onOpenChange,
+}: HabitDetailDialogProps) {
+  const { toggleCompletion, deleteHabit, archiveHabit, getHabitStats } =
+    useHabits();
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   if (!habit) return null;
 
-  const stats = getHabitStats(habit.id);
+  const stats = getHabitStats(habit._id);
 
   const handleDateClick = (date: string) => {
-    toggleCompletion(habit.id, date);
+    toggleCompletion(habit._id, date);
   };
 
   const handleDelete = () => {
-    if (confirm('Are you sure you want to delete this habit?')) {
-      deleteHabit(habit.id);
+    if (confirm("Are you sure you want to delete this habit?")) {
+      deleteHabit(habit._id);
       onOpenChange(false);
     }
   };
 
   const handleArchive = () => {
-    archiveHabit(habit.id);
+    archiveHabit(habit._id);
     onOpenChange(false);
   };
 
@@ -79,7 +91,9 @@ export function HabitDetailDialog({ habit, open, onOpenChange }: HabitDetailDial
                 <Flame className="h-4 w-4 text-orange-500" />
                 Current Streak
               </div>
-              <div className="text-2xl font-bold">{stats?.currentStreak || 0}</div>
+              <div className="text-2xl font-bold">
+                {stats?.currentStreak || 0}
+              </div>
             </div>
 
             <div className="space-y-1 rounded-lg border p-3">
@@ -87,7 +101,9 @@ export function HabitDetailDialog({ habit, open, onOpenChange }: HabitDetailDial
                 <TrendingUp className="h-4 w-4 text-emerald-500" />
                 Longest Streak
               </div>
-              <div className="text-2xl font-bold">{stats?.longestStreak || 0}</div>
+              <div className="text-2xl font-bold">
+                {stats?.longestStreak || 0}
+              </div>
             </div>
 
             <div className="space-y-1 rounded-lg border p-3">
@@ -105,7 +121,9 @@ export function HabitDetailDialog({ habit, open, onOpenChange }: HabitDetailDial
                 <TrendingUp className="h-4 w-4 text-purple-500" />
                 Total Days
               </div>
-              <div className="text-2xl font-bold">{stats?.totalCompletions || 0}</div>
+              <div className="text-2xl font-bold">
+                {stats?.totalCompletions || 0}
+              </div>
             </div>
           </div>
 
@@ -121,7 +139,11 @@ export function HabitDetailDialog({ habit, open, onOpenChange }: HabitDetailDial
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={() => setIsEditOpen(true)} className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsEditOpen(true)}
+              className="gap-2"
+            >
               <Edit className="h-4 w-4" />
               Edit Habit
             </Button>

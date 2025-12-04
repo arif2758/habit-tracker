@@ -15,10 +15,11 @@ import {
 
 import { useHabits } from "@/contexts/HabitContext";
 import { COLOR_CONFIG } from "@/lib/constants";
-import { getIcon } from "@/components/icons";
+import { getIcon, IconMap } from "@/components/icons";
 import { getToday } from "@/lib/utils";
 import type { Habit } from "@/lib/types";
 import { HabitDetailModal } from "./HabitDetailModal";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import { cn } from "@/lib/utils";
 
 interface HabitCardProps {
@@ -28,23 +29,22 @@ interface HabitCardProps {
 export function HabitCard({ habit }: HabitCardProps) {
   const { toggleCompletion, deleteHabit, archiveHabit } = useHabits();
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const today = getToday();
   const todayCompletion = habit.completions.find((c) => c.date === today);
   const isCompleted = todayCompletion?.completed || false;
 
   const handleToggle = () => {
-    toggleCompletion(habit.id, today);
+    toggleCompletion(habit._id, today);
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this habit?")) {
-      deleteHabit(habit.id);
-    }
+    deleteHabit(habit._id);
   };
 
   const handleArchive = () => {
-    archiveHabit(habit.id);
+    archiveHabit(habit._id);
   };
 
   // Get border color based on habit color
@@ -74,10 +74,14 @@ export function HabitCard({ habit }: HabitCardProps) {
             {/* Habit Info */}
             <div className="flex-1 space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-xl">
-                  {React.createElement(getIcon(habit.icon), {
-                    className: "h-5 w-5",
-                  })}
+                <span className="text-xl flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary">
+                  {IconMap[habit.icon] ? (
+                    React.createElement(IconMap[habit.icon], {
+                      className: "h-5 w-5",
+                    })
+                  ) : (
+                    <span className="text-lg leading-none">{habit.icon}</span>
+                  )}
                 </span>
                 <h3 className="font-semibold leading-none tracking-tight">
                   {habit.name}
@@ -103,7 +107,10 @@ export function HabitCard({ habit }: HabitCardProps) {
                 <span className="sr-only">Open menu</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              onClick={(e) => e.stopPropagation()}
+            >
               <DropdownMenuItem onClick={() => setIsDetailOpen(true)}>
                 <Edit className="mr-2 h-4 w-4" />
                 View Details
@@ -114,7 +121,7 @@ export function HabitCard({ habit }: HabitCardProps) {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={handleDelete}
+                onClick={() => setIsDeleteDialogOpen(true)}
                 className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
@@ -130,6 +137,15 @@ export function HabitCard({ habit }: HabitCardProps) {
         habit={habit}
         open={isDetailOpen}
         onOpenChange={setIsDetailOpen}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <DeleteConfirmDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={handleDelete}
+        title="Delete Habit?"
+        description={`Are you sure you want to delete "${habit.name}"? This action cannot be undone and will permanently delete all habit data.`}
       />
     </>
   );

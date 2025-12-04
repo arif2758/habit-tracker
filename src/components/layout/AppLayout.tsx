@@ -26,7 +26,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       </div>
 
       {/* 1. Header (Fixed at top) */}
-      <Header onAddHabit={handleAddHabit} />
+      <Header onAddHabit={handleAddHabit} /> 
 
       <div className="flex relative z-10">
         {/* 2. Desktop Sidebar (Fixed Left, Below Header) */}
