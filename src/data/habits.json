@@ -1,0 +1,49 @@
+{
+  "habits": [
+    {
+      "id": "1",
+      "name": "Morning Exercise",
+      "description": "30 minutes of cardio or strength training",
+      "category": "health",
+      "color": "emerald",
+      "icon": "Dumbbell",
+      "frequency": "daily",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "completions": [],
+      "archived": false
+    },
+    {
+      "id": "2",
+      "name": "Read 20 Pages",
+      "description": "Read at least 20 pages of a book",
+      "category": "learning",
+      "color": "blue",
+      "icon": "BookOpen",
+      "frequency": "daily",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "completions": [],
+      "archived": false
+    },
+    {
+      "id": "3",
+      "name": "Meditation",
+      "description": "10 minutes of mindfulness meditation",
+      "category": "mindfulness",
+      "color": "pink",
+      "icon": "Brain",
+      "frequency": "daily",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z",
+      "completions": [],
+      "archived": false
+    }
+  ],
+  "settings": {
+    "theme": "system",
+    "weekStart": "sunday",
+    "notifications": false
+  },
+  "version": "1.0.0"
+}
