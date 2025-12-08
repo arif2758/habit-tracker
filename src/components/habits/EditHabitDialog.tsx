@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { ColorPicker } from "@/components/ui/color-picker";
 import {
   Select,
   SelectContent,
@@ -23,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useHabits } from "@/contexts/HabitContext";
 import { CATEGORY_CONFIG } from "@/lib/constants";
-import type { Habit, HabitCategory } from "@/lib/types";
+import type { Habit, HabitCategory, HabitColor } from "@/lib/types";
 
 interface EditHabitDialogProps {
   habit: Habit | null;
@@ -46,12 +47,16 @@ export function EditHabitDialog({
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">(
     habit?.frequency || "daily"
   );
+  const [color, setColor] = React.useState<HabitColor>(
+    habit?.color || "#3b82f6"
+  );
 
   // ✅ Reset state when dialog opens with new habit
   React.useEffect(() => {
     if (open && habit) {
       setCategory(habit.category);
       setFrequency(habit.frequency);
+      setColor(habit.color);
     }
   }, [open, habit]);
 
@@ -66,8 +71,8 @@ export function EditHabitDialog({
       name: formData.get("name") as string,
       description: formData.get("description") as string,
       category: category,
-      color: CATEGORY_CONFIG[category].color,
-      icon: CATEGORY_CONFIG[category].icon,
+      color: color,
+      icon: habit.icon, // Keep existing icon
       frequency: frequency,
     };
 
@@ -112,6 +117,25 @@ export function EditHabitDialog({
               defaultValue={habit.description}
               placeholder="What does this habit involve?"
               rows={3}
+            />
+          </div>
+
+          {/* Color Picker */}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Color</Label>
+            <ColorPicker
+              value={color as string}
+              onChange={(newColor) => setColor(newColor as HabitColor)}
+              presetColors={[
+                "#3b82f6", // blue
+                "#10b981", // green
+                "#a855f7", // purple
+                "#f97316", // orange
+                "#ec4899", // pink
+                "#eab308", // yellow
+                "#ef4444", // red
+                "#06b6d4", // cyan
+              ]}
             />
           </div>
 

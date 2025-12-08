@@ -7,8 +7,8 @@ import type { HabitCategory } from "@/lib/types";
 interface HabitTemplate {
   name: string;
   emoji: string;
-  category: HabitCategory;
-  description?: string;
+  category: HabitCategory; 
+  description?: string; 
 }
 
 const habitTemplates: Record<string, HabitTemplate[]> = {

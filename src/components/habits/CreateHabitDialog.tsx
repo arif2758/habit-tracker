@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { ArrowLeft } from "lucide-react";
-import { getIcon } from "@/components/icons";
+import { ArrowLeft } from "lucide-react"; // Default icon import
 import { toast } from "sonner";
 import {
   Dialog,
@@ -22,10 +21,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ColorPicker } from "@/components/ui/color-picker";
 import { HabitTemplates } from "./HabitTemplates";
 import { useHabits } from "@/contexts/HabitContext";
-import { CATEGORY_CONFIG, COLOR_OPTIONS } from "@/lib/constants";
-import { HABIT_ICONS } from "@/lib/icon-constants";
+import { CATEGORY_CONFIG } from "@/lib/constants";
 import type { HabitCategory, HabitColor } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -44,19 +43,22 @@ export function CreateHabitDialog({
   const formRef = useRef<HTMLFormElement>(null);
 
   const [viewMode, setViewMode] = useState<ViewMode>("templates");
+
+  // Form States
   const [category, setCategory] = React.useState<HabitCategory>("health");
-  const [selectedColor, setSelectedColor] = React.useState<HabitColor>("blue");
-  const [selectedIcon, setSelectedIcon] = React.useState<string>("Dumbbell");
+  const [selectedColor, setSelectedColor] =
+    React.useState<HabitColor>("#3b82f6"); // Default blue hex
+  // Icon state removed from manual selection, default provided directly
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">("daily");
   const [description, setDescription] = React.useState("");
   const [targetDays, setTargetDays] = React.useState<number[]>([]);
 
+  // ---- TEMPLATE HANDLER ----
   const handleTemplateSelect = (template: {
     name: string;
-    emoji: string; 
+    emoji: string;
     category: HabitCategory;
   }) => {
-    // Check for duplicate habit name
     const isDuplicate = habits.some(
       (h) =>
         h.name.toLowerCase().trim() === template.name.toLowerCase().trim() &&
@@ -70,24 +72,18 @@ export function CreateHabitDialog({
       return;
     }
 
-    // Directly create the habit with default values
+    // Template uses Emoji as Icon
     const habitData = {
       name: template.name,
       description: `Daily ${template.name} habit`,
       category: template.category,
       color: "blue" as HabitColor,
-      icon: template.emoji, // Use emoji as icon identifier
+      icon: template.emoji,
       frequency: "daily" as const,
     };
 
     addHabit(habitData);
-
-    // Reset and close
-    setCategory("health");
-    setSelectedColor("blue");
-    setFrequency("daily");
-    setDescription("");
-    setViewMode("templates");
+    resetForm();
     onOpenChange(false);
   };
 
@@ -95,46 +91,50 @@ export function CreateHabitDialog({
     setViewMode("form");
   };
 
+  // ---- CUSTOM HABIT SUBMIT ----
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
 
-    const habitData = {
-      name: formData.get("name") as string,
-      description: description,
-      category: category,
-      color: selectedColor,
-      icon: selectedIcon,
-      frequency: frequency,
-      ...(frequency === "weekly" && { targetDays }),
-    };
+    if (!name.trim()) return;
 
-    if (!habitData.name.trim()) return;
-
-    // Check for duplicate habit name
     const isDuplicate = habits.some(
       (h) =>
-        h.name.toLowerCase().trim() === habitData.name.toLowerCase().trim() &&
-        !h.archived
+        h.name.toLowerCase().trim() === name.toLowerCase().trim() && !h.archived
     );
 
     if (isDuplicate) {
       toast.error("Habit already exists", {
-        description: `A habit with the name "${habitData.name}" already exists.`,
+        description: `A habit with the name "${name}" already exists.`,
       });
       return;
     }
 
+    const habitData = {
+      name: name,
+      description: description,
+      category: category,
+      color: selectedColor,
+      // Custom Habit এর জন্য কোন আইকন নেই
+      icon: "",
+      frequency: frequency,
+      ...(frequency === "weekly" && { targetDays }),
+    };
+
     addHabit(habitData);
+    resetForm();
+    onOpenChange(false);
+  };
+
+  const resetForm = () => {
     formRef.current?.reset();
     setCategory("health");
-    setSelectedColor("blue");
-    setSelectedIcon("Dumbbell");
+    setSelectedColor("#3b82f6"); // Default blue hex
     setFrequency("daily");
     setDescription("");
     setTargetDays([]);
     setViewMode("templates");
-    onOpenChange(false);
   };
 
   const handleBack = () => {
@@ -151,157 +151,153 @@ export function CreateHabitDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleDialogOpenChange}>
-      <DialogContent className="sm:max-w-[500px] gap-6 max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[500px] gap-0 p-0 max-h-[90vh] overflow-hidden flex flex-col">
+        {/* Header Section */}
+        <DialogHeader className="p-6 pb-4 border-b">
           <div className="flex items-center gap-2">
             {viewMode === "form" && (
               <button
                 onClick={handleBack}
-                className="p-1 hover:bg-muted rounded-lg transition-colors"
+                className="p-1.5 -ml-2 mr-1 hover:bg-muted rounded-full transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
             )}
-            <DialogTitle className="text-xl">
-              {viewMode === "templates" ? "Add Habit" : "Create Custom Habit"}
-            </DialogTitle>
+            <div className="space-y-1">
+              <DialogTitle className="text-xl">
+                {viewMode === "templates"
+                  ? "Add New Habit"
+                  : "Create Custom Habit"}
+              </DialogTitle>
+              {viewMode === "templates" && (
+                <DialogDescription>
+                  Choose a template or create your own
+                </DialogDescription>
+              )}
+            </div>
           </div>
-          {viewMode === "templates" && (
-            <DialogDescription>
-              Choose from templates or create a custom habit
-            </DialogDescription>
-          )}
         </DialogHeader>
 
-        {viewMode === "templates" ? (
-          <HabitTemplates
-            onSelectTemplate={handleTemplateSelect}
-            onCreateCustom={handleCustom}
-          />
-        ) : (
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="grid gap-6 py-2"
-          >
-            {/* Habit Name */}
-            <div className="grid gap-2">
-              <Label htmlFor="name" className="text-base font-semibold">
-                Name
-              </Label>
-              <Input
-                id="name"
-                name="name"
-                placeholder="Habit name..."
-                required
-                autoFocus
-                className="text-base"
-              />
-            </div>
-
-            {/* Description */}
-            <div className="grid gap-2">
-              <div className="flex items-center justify-between">
-                <Label
-                  htmlFor="description"
-                  className="text-base font-semibold"
-                >
-                  Description
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto p-6 flex-1">
+          {viewMode === "templates" ? (
+            <HabitTemplates
+              onSelectTemplate={handleTemplateSelect}
+              onCreateCustom={handleCustom}
+            />
+          ) : (
+            <form ref={formRef} onSubmit={handleSubmit} className="grid gap-6">
+              {/* Habit Name */}
+              <div className="grid gap-2">
+                <Label htmlFor="name" className="text-base font-semibold">
+                  Name
                 </Label>
-                <span className="text-sm text-muted-foreground">
-                  {description.length} / 40
-                </span>
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="e.g. Read 10 pages"
+                  required
+                  autoFocus
+                  className="h-12 text-base bg-muted/30"
+                />
               </div>
-              <Textarea
-                id="description"
-                name="description"
-                placeholder="Short habit description..."
-                rows={2}
-                maxLength={40}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="resize-none text-base"
-              />
-            </div>
 
-            {/* Color Picker */}
-            <div className="grid gap-2">
-              <Label className="text-base font-semibold">Color</Label>
-              <div className="flex items-center justify-between p-4 rounded-lg border hover:bg-muted/30 transition-colors">
-                <span className="text-sm">Select habit color</span>
-                <div className="flex gap-2">
-                  {COLOR_OPTIONS.map((color) => (
-                    <button
-                      key={color.value}
-                      type="button"
-                      onClick={() => setSelectedColor(color.value)}
-                      className={cn(
-                        "w-8 h-8 rounded-full transition-all",
-                        color.class,
-                        selectedColor === color.value &&
-                          "ring-2 ring-offset-2 ring-primary scale-110"
-                      )}
-                      aria-label={`Select ${color.value} color`}
-                    />
-                  ))}
+              {/* Description */}
+              <div className="grid gap-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="description" className="text-sm font-medium">
+                    Description (Optional)
+                  </Label>
+                  <span className="text-xs text-muted-foreground">
+                    {description.length}/40
+                  </span>
+                </div>
+                <Textarea
+                  id="description"
+                  name="description"
+                  placeholder="Why do you want to build this habit?"
+                  rows={2}
+                  maxLength={40}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="resize-none text-base bg-muted/30"
+                />
+              </div>
+
+              {/* Color Picker */}
+              <div className="grid gap-3">
+                <Label className="text-sm font-medium">Color</Label>
+                <ColorPicker
+                  value={selectedColor as string}
+                  onChange={(color) => setSelectedColor(color as HabitColor)}
+                  presetColors={[
+                    "#3b82f6", // blue
+                    "#10b981", // green
+                    "#a855f7", // purple
+                    "#f97316", // orange
+                    "#ec4899", // pink
+                    "#eab308", // yellow
+                    "#ef4444", // red
+                    "#06b6d4", // cyan
+                  ]}
+                />
+              </div>
+
+              {/* NOTE: Icon Picker Removed as requested */}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Category */}
+                <div className="grid gap-2">
+                  <Label htmlFor="category" className="text-sm font-medium">
+                    Category
+                  </Label>
+                  <Select
+                    value={category}
+                    onValueChange={(value) =>
+                      setCategory(value as HabitCategory)
+                    }
+                  >
+                    <SelectTrigger className="h-11 bg-muted/30">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
+                        <SelectItem key={key} value={key}>
+                          {config.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Frequency */}
+                <div className="grid gap-2">
+                  <Label className="text-sm font-medium">Frequency</Label>
+                  <Select
+                    value={frequency}
+                    onValueChange={(value) =>
+                      setFrequency(value as "daily" | "weekly")
+                    }
+                  >
+                    <SelectTrigger className="h-11 bg-muted/30">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="daily">Every Day</SelectItem>
+                      <SelectItem value="weekly">Specific Days</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-            </div>
-
-            {/* Icon Picker */}
-            <div className="grid gap-2">
-              <Label className="text-base font-semibold">Icon</Label>
-              <div className="p-4 rounded-lg border">
-                <div className="grid grid-cols-8 gap-2">
-                  {HABIT_ICONS.map((iconName) => {
-                    const IconComponent = getIcon(iconName);
-                    return (
-                      <button
-                        key={iconName}
-                        type="button"
-                        onClick={() => setSelectedIcon(iconName)}
-                        className={cn(
-                          "p-2 rounded-lg transition-all hover:bg-muted",
-                          selectedIcon === iconName &&
-                            "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2"
-                        )}
-                        aria-label={`Select ${iconName} icon`}
-                      >
-                        {React.createElement(IconComponent, {
-                          className: "h-5 w-5",
-                        })}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Frequency */}
-            <div className="grid gap-2">
-              <Label className="text-base font-semibold">Frequency</Label>
-              <Select
-                value={frequency}
-                onValueChange={(value) =>
-                  setFrequency(value as "daily" | "weekly")
-                }
-              >
-                <SelectTrigger className="text-base">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="daily">Every Day</SelectItem>
-                  <SelectItem value="weekly">Specific Days</SelectItem>
-                </SelectContent>
-              </Select>
 
               {/* Day Selector for Weekly */}
               {frequency === "weekly" && (
-                <div className="grid grid-cols-7 gap-2 mt-2">
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
-                    (day, index) => (
+                <div className="grid gap-2 animate-in fade-in slide-in-from-top-2">
+                  <Label className="text-sm font-medium">Select Days</Label>
+                  <div className="flex justify-between gap-1">
+                    {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
                       <button
-                        key={day}
+                        key={index}
                         type="button"
                         onClick={() => {
                           setTargetDays((prev) =>
@@ -311,52 +307,32 @@ export function CreateHabitDialog({
                           );
                         }}
                         className={cn(
-                          "p-2 rounded-lg text-xs font-medium transition-colors",
+                          "h-10 w-10 rounded-full text-sm font-semibold transition-all border",
                           targetDays.includes(index)
-                            ? "bg-primary text-primary-foreground"
-                            : "border border-border hover:bg-muted"
+                            ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                            : "bg-background border-input hover:bg-muted hover:border-muted-foreground/50"
                         )}
                       >
                         {day}
                       </button>
-                    )
-                  )}
+                    ))}
+                  </div>
                 </div>
               )}
-            </div>
 
-            {/* Category */}
-            <div className="grid gap-2">
-              <Label htmlFor="category" className="text-base font-semibold">
-                Category
-              </Label>
-              <Select
-                value={category}
-                onValueChange={(value) => setCategory(value as HabitCategory)}
-              >
-                <SelectTrigger className="text-base">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
-                    <SelectItem key={key} value={key}>
-                      {config.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full h-12 text-base font-semibold mt-4"
-              size="lg"
-            >
-              Save
-            </Button>
-          </form>
-        )}
+              {/* Submit Button */}
+              <div className="pt-4">
+                <Button
+                  type="submit"
+                  className="w-full h-12 text-base font-semibold shadow-lg shadow-primary/20"
+                  size="lg"
+                >
+                  Create Habit
+                </Button>
+              </div>
+            </form>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

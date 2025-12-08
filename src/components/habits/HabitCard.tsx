@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { MoreVertical, Trash2, Edit, Archive } from "lucide-react";
+import { MoreVertical, Trash2, Edit, Archive, Eye } from "lucide-react";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
@@ -15,10 +15,11 @@ import {
 
 import { useHabits } from "@/contexts/HabitContext";
 import { COLOR_CONFIG } from "@/lib/constants";
-import {  IconMap } from "@/components/icons";
-import { getToday } from "@/lib/utils";
+import { IconMap } from "@/components/icons";
+import { getToday, isHexColor } from "@/lib/utils";
 import type { Habit } from "@/lib/types";
 import { HabitDetailModal } from "./HabitDetailModal";
+import { EditHabitDialog } from "./EditHabitDialog";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ interface HabitCardProps {
 export function HabitCard({ habit }: HabitCardProps) {
   const { toggleCompletion, deleteHabit, archiveHabit } = useHabits();
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const today = getToday();
@@ -42,22 +44,45 @@ export function HabitCard({ habit }: HabitCardProps) {
   const handleDelete = () => {
     deleteHabit(habit._id);
   };
- 
+
   const handleArchive = () => {
     archiveHabit(habit._id);
   };
 
   // Get border color based on habit color
+  const getBorderStyle = () => {
+    if (isHexColor(habit.color)) {
+      return {
+        borderColor: isCompleted ? habit.color : `${habit.color}40`, // 25% opacity when unchecked
+        backgroundColor: isCompleted ? `${habit.color}15` : undefined,
+      };
+    }
+    // For predefined colors, apply opacity to the border color
+    if (!isCompleted && COLOR_CONFIG[habit.color]) {
+      return {
+        borderColor: `${habit.color}40`, // Apply 40 opacity to the border
+      };
+    }
+    return {};
+  };
   const borderColorClass =
-    COLOR_CONFIG[habit.color]?.border || "border-primary";
+    !isHexColor(habit.color) && COLOR_CONFIG[habit.color]
+      ? COLOR_CONFIG[habit.color].border
+      : "";
 
   return (
     <>
       <Card
         className={cn(
-          "group cursor-pointer hover:shadow-md transition-all duration-200 border-l-4 py-1",
-          borderColorClass
+          "group cursor-pointer hover:shadow-md transition-all duration-200 py-1",
+          isCompleted ? borderColorClass : "border-primary/40",
+          isCompleted && !isHexColor(habit.color) && "bg-primary/10",
+          "border-l-2"
         )}
+        style={{
+          ...getBorderStyle(),
+          borderLeftWidth: isCompleted ? "4px" : "1px",
+        }}
         onClick={() => setIsDetailOpen(true)}
       >
         <CardHeader className="flex flex-row items-center justify-between py-1 px-2">
@@ -68,21 +93,31 @@ export function HabitCard({ habit }: HabitCardProps) {
                 checked={isCompleted}
                 onCheckedChange={handleToggle}
                 className="h-6 w-6 rounded-full"
+                style={
+                  isCompleted && isHexColor(habit.color)
+                    ? {
+                        backgroundColor: habit.color,
+                        borderColor: habit.color,
+                      }
+                    : {}
+                }
               />
             </div>
 
             {/* Habit Info */}
             <div className="flex-1 space-y-">
               <div className="flex items-center gap-2">
-                <span className="text-xl flex items-center justify-center rounded-full bg-primary/1 text-primary">
-                  {IconMap[habit.icon] ? (
-                    React.createElement(IconMap[habit.icon], {
-                      className: "h-5 w-5",
-                    })
-                  ) : (
-                    <span className="text-lg leading-none">{habit.icon}</span>
-                  )}
-                </span>
+                {habit.icon && (
+                  <span className="text-xl flex items-center justify-center rounded-full bg-primary/1 text-primary">
+                    {IconMap[habit.icon] ? (
+                      React.createElement(IconMap[habit.icon], {
+                        className: "h-5 w-5",
+                      })
+                    ) : (
+                      <span className="text-lg leading-none">{habit.icon}</span>
+                    )}
+                  </span>
+                )}
                 <h3 className="font-semibold leading-none tracking-tight">
                   {habit.name}
                 </h3>
@@ -112,8 +147,12 @@ export function HabitCard({ habit }: HabitCardProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <DropdownMenuItem onClick={() => setIsDetailOpen(true)}>
-                <Edit className="mr-2 h-4 w-4" />
+                <Eye className="mr-2 h-4 w-4" />
                 View Details
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsEditOpen(true)}>
+                <Edit className="mr-2 h-4 w-4" />
+                Edit Habit
               </DropdownMenuItem>
               <DropdownMenuItem onClick={handleArchive}>
                 <Archive className="mr-2 h-4 w-4" />
@@ -137,6 +176,13 @@ export function HabitCard({ habit }: HabitCardProps) {
         habit={habit}
         open={isDetailOpen}
         onOpenChange={setIsDetailOpen}
+      />
+
+      {/* Edit Dialog */}
+      <EditHabitDialog
+        habit={habit}
+        open={isEditOpen}
+        onOpenChange={setIsEditOpen}
       />
 
       {/* Delete Confirmation Dialog */}

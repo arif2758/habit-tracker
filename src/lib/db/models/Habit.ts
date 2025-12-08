@@ -16,8 +16,8 @@ export interface IHabit {
     | "learning"
     | "creativity"
     | "social";
-  color: "blue" | "green" | "purple" | "orange" | "pink" | "yellow";
-  icon: string;
+  color: "blue" | "green" | "purple" | "orange" | "pink" | "yellow" | string; // Support custom hex colors
+  icon?: string; // Optional - custom habits don't have icons
   frequency: "daily" | "weekly";
   targetDays?: number[];
   completions: ICompletion[];
@@ -61,12 +61,11 @@ const HabitSchema = new Schema<IHabit>(
     color: {
       type: String,
       required: true,
-      enum: ["blue", "green", "purple", "orange", "pink", "yellow"],
-      default: "blue",
+      default: "#3b82f6",
     },
     icon: {
       type: String,
-      required: true,
+      default: "",
     },
     frequency: {
       type: String,

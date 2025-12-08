@@ -199,7 +199,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400 dark:to-purple-300;
+    @apply bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-400 dark:to-purple-300;
   }
 }
 
@@ -215,5 +215,3 @@
   border: 1px solid var(--border) !important;
   color: var(--popover-foreground) !important;
 }
-
-

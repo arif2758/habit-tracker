@@ -5,7 +5,7 @@ export interface Habit {
   description?: string;
   category: HabitCategory;
   color: HabitColor;
-  icon: string;
+   icon?: string;
   frequency: "daily" | "weekly";
   targetDays?: number[]; // 0 = Sunday, 1 = Monday, etc.
   createdAt: string;
@@ -35,7 +35,8 @@ export type HabitColor =
   | "purple"
   | "orange"
   | "pink"
-  | "yellow";
+  | "yellow"
+  | string; // Support for custom hex colors
 
 export interface AppSettings {
   theme: "light" | "dark" | "system";

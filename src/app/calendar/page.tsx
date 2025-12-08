@@ -1,3 +1,4 @@
+// src\app\calendar\page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -117,10 +118,11 @@ export default function CalendarPage() {
                   </div>
                   <div className="flex-1 flex flex-wrap gap-1 content-start overflow-hidden">
                     {habitsForDay.slice(0, 4).map((habit) => {
-                      const Icon = getIcon(habit.icon);
+                      // ✅ Default icon যদি icon না থাকে
+                      const Icon = getIcon(habit.icon || "target");
                       return (
                         <div
-                          key={habit.id}
+                          key={habit._id} // ✅ habit.id এর পরিবর্তে habit._id
                           className="w-5 h-5 rounded bg-primary/20 flex items-center justify-center"
                           title={habit.name}
                         >

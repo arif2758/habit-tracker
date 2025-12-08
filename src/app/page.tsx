@@ -4,14 +4,18 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useHabits } from "@/contexts/HabitContext";
 import { HabitList } from "@/components/habits/HabitList";
-import { WeekCalendar } from "@/components/calendar/WeekCalendar"; 
+import { WeekCalendar } from "@/components/calendar/WeekCalendar";
 import { Settings, Calendar } from "lucide-react";
 
 export default function DashboardPage() {
   const { loading, habits } = useHabits();
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const selectedDateString = selectedDate.toISOString().split("T")[0];
+  // Format date properly as YYYY-MM-DD
+  const year = selectedDate.getFullYear();
+  const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+  const day = String(selectedDate.getDate()).padStart(2, "0");
+  const selectedDateString = `${year}-${month}-${day}`;
 
   // Show all daily habits (like a todo list)
   const dailyHabits = habits.filter(
@@ -45,32 +49,41 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl mx-auto pb-24">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 max-w-2xl mx-auto pb-24">
+      {/* Header - Compact */}
+      <div className="flex items-center justify-between pt-2">
         <Link href="/settings">
-          <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-            <Settings className="h-6 w-6" />
+          <button className="p-1.5 hover:bg-muted rounded-lg transition-colors">
+            <Settings className="h-5 w-5" />
           </button>
         </Link>
-        <h1 className="text-xl font-semibold">Today</h1>
+        <h1 className="text-lg font-semibold">Today&apos;s Habits</h1>
         <Link href="/calendar">
-          <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-            <Calendar className="h-6 w-6" />
+          <button className="p-1.5 hover:bg-muted rounded-lg transition-colors">
+            <Calendar className="h-5 w-5" />
           </button>
         </Link>
       </div>
 
-      {/* Week Calendar */}
-      <WeekCalendar
-        selectedDate={selectedDate}
-        onDateSelect={setSelectedDate}
-      />
+      {/* Week Calendar - Compact */}
+      <div className="px-2">
+        <WeekCalendar
+          selectedDate={selectedDate}
+          onDateSelect={setSelectedDate}
+        />
+      </div>
 
-      {/* Progress Section */}
-      <div className="space-y-3">
-        <h2 className="text-xl font-semibold">Progress</h2>
-        <div className="h-2 bg-muted rounded-full overflow-hidden">
+      {/* Progress Section - Compact */}
+      <div className="space-y-2 px-2">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-muted-foreground">
+            Progress
+          </h2>
+          <span className="text-sm font-medium">
+            {completedCount}/{totalCount}
+          </span>
+        </div>
+        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
           <div
             className="h-full bg-primary transition-all duration-500"
             style={{ width: `${progressPercentage}%` }}
@@ -78,8 +91,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Habits List */}
-      <div className="space-y-3">
+      {/* Habits List - Compact */}
+      <div className="px-2">
         <HabitList
           habits={dailyHabits}
           emptyMessage="No daily habits yet. Create your first habit to get started!"

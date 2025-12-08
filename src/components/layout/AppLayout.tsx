@@ -47,7 +47,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
       <CreateHabitDialog
         open={isAddHabitOpen}
-        onOpenChange={setIsAddHabitOpen}
+        onOpenChange={setIsAddHabitOpen} 
       />
     </div>
   );
