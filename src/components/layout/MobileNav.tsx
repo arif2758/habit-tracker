@@ -1,15 +1,14 @@
+// src\components\layout\MobileNav.tsx
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ListTodo, Plus, ChartNoAxesCombined } from "lucide-react";
+import { Home, BarChart3, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
-// আইটেমগুলো এখানে ডিফাইন করা থাকলো
 const navItems = [
-  { name: "Habits", href: "/habits", icon: ListTodo },
-  { name: "Stats", href: "/statistics", icon: ChartNoAxesCombined },
+  { name: "Home", href: "/", icon: Home },
+  { name: "Stats", href: "/statistics", icon: BarChart3 },
 ];
 
 interface MobileNavProps {
@@ -19,55 +18,81 @@ interface MobileNavProps {
 export function MobileNav({ onAddHabit }: MobileNavProps) {
   const pathname = usePathname();
 
-  // আলাদা করে আইটেমগুলো ভেরিয়েবলে নিলাম
-  const habitsItem = navItems[0];
-  const statsItem = navItems[1];
-
-  const renderNavItem = (item: (typeof navItems)[0]) => {
-    const isActive = pathname === item.href;
-    const Icon = item.icon;
-
-    return (
-      <Link href={item.href} className="flex-1">
-        <Button
-          variant="ghost"
-          className={cn(
-            "h-14 w-full flex-col gap-1 hover:bg-transparent",
-            isActive && "text-primary"
-          )}
-        >
-          <Icon className={cn("h-6 w-6", isActive && "fill-current")} />
-          <span className="text-xs font-medium">{item.name}</span>
-        </Button>
-      </Link>
-    );
-  };
-
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 lg:hidden">
-      <div className="flex items-center justify-between px-6 py-2">
-        {/* ১. বাম পাশের আইটেম (Habits) */}
-        <div className="flex-1 flex justify-start">
-          {renderNavItem(habitsItem)}
-        </div>
+    <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
+      {/* ✅ Glassmorphism Container - একদম নিচে */}
+      <div className="rounded-t-3xl bg-background/40 backdrop-blur-2xl border-t border-x border-white/10 shadow-2xl dark:bg-black/40 dark:border-white/5">
+        {/* Inner glow effect */}
+        <div className="absolute inset-0 rounded-t-3xl bg-linear-to-t from-primary/5 via-transparent to-transparent pointer-events-none" />
+        
+        <div className="relative flex items-center justify-between px-6 py-3 pb-safe">
+          {/* Navigation Items */}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            const Icon = item.icon;
 
-        {/* ২. মাঝখানের FAB বাটন (Add Habit) */}
-        <div className="flex justify-center ">
-          {" "}
-          {/* -mt-6 দিয়ে বাটনটিকে একটু উপরে ভাসানো হয়েছে */}
-          <Button
-            onClick={onAddHabit}
-            size="icon"
-            className="h-14 w-14 rounded-full shadow-lg bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            <Plus className="h-10 w-10" />
-            <span className="sr-only">Add Habit</span>
-          </Button>
-        </div>
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex flex-col items-center gap-1 px-6 py-2 rounded-xl transition-all duration-300",
+                  "hover:bg-white/10 dark:hover:bg-white/5 active:scale-95",
+                  isActive && "bg-white/10 dark:bg-white/5"
+                )}
+              >
+                <div className="relative">
+                  <Icon
+                    className={cn(
+                      "h-6 w-6 transition-all duration-300",
+                      isActive
+                        ? "text-primary scale-110"
+                        : "text-muted-foreground"
+                    )}
+                    strokeWidth={isActive ? 2.5 : 2}
+                  />
+                  {isActive && (
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary animate-pulse" />
+                  )}
+                </div>
+                <span
+                  className={cn(
+                    "text-[10px] font-semibold tracking-wide transition-all duration-300",
+                    isActive
+                      ? "text-primary font-bold"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  {item.name}
+                </span>
+              </Link>
+            );
+          })}
 
-        {/* ৩. ডান পাশের আইটেম (Stats) */}
-        <div className="flex-1 flex justify-end">
-          {renderNavItem(statsItem)}
+          {/* FAB Button */}
+          <div className="absolute left-1/2 -translate-x-1/2 -top-6">
+            {/* Outer glow */}
+            <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse" />
+            
+            <button
+              onClick={onAddHabit}
+              className={cn(
+                "relative h-14 w-14 rounded-full",
+                "bg-linear-to-br from-primary via-primary to-primary/90",
+                "shadow-lg shadow-primary/25",
+                "flex items-center justify-center",
+                "transition-all duration-300",
+                "hover:shadow-xl hover:shadow-primary/40 hover:scale-105",
+                "active:scale-95",
+                "border-4 border-background/50 backdrop-blur-sm",
+                "before:absolute before:inset-0 before:rounded-full",
+                "before:bg-linear-to-br before:from-white/20 before:to-transparent",
+                "before:opacity-50"
+              )}
+            >
+              <Plus className="h-7 w-7 text-primary-foreground relative z-10" strokeWidth={3} />
+            </button>
+          </div>
         </div>
       </div>
     </nav>

@@ -1,3 +1,4 @@
+// src\components\habits\HabitCard.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -53,28 +54,49 @@ export function HabitCard({ habit }: HabitCardProps) {
   const getBorderStyle = () => {
     if (isHexColor(habit.color)) {
       return {
-        borderColor: isCompleted ? habit.color : `${habit.color}40`, // 25% opacity when unchecked
+        borderColor: isCompleted ? habit.color : `${habit.color}40`,
         backgroundColor: isCompleted ? `${habit.color}15` : undefined,
       };
     }
-    // For predefined colors, apply opacity to the border color
     if (!isCompleted && COLOR_CONFIG[habit.color]) {
       return {
-        borderColor: `${habit.color}40`, // Apply 40 opacity to the border
+        borderColor: `${habit.color}40`,
       };
     }
     return {};
   };
+
   const borderColorClass =
     !isHexColor(habit.color) && COLOR_CONFIG[habit.color]
       ? COLOR_CONFIG[habit.color].border
       : "";
 
+  // ✅ Checkbox style - গাঢ় করার জন্য
+  const getCheckboxStyle = () => {
+    if (isCompleted && isHexColor(habit.color)) {
+      return {
+        backgroundColor: habit.color,
+        borderColor: habit.color,
+      };
+    }
+    return {};
+  };
+
+  // ✅ Checkbox এর জন্য dynamic class
+  const checkboxClassName = cn(
+    "h-6 w-6 rounded-full transition-all",
+    // Dark mode এ আরও গাঢ় border
+    "border-2",
+    isCompleted
+      ? "data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+      : "border-input hover:border-primary/60 dark:border-muted-foreground/40 dark:hover:border-primary/60"
+  );
+
   return (
     <>
       <Card
         className={cn(
-          "group cursor-pointer hover:shadow-md transition-all duration-200 py-1",
+          "group cursor-pointer hover:shadow-md transition-all duration-200 py-2",
           isCompleted ? borderColorClass : "border-primary/40",
           isCompleted && !isHexColor(habit.color) && "bg-primary/10",
           "border-l-2"
@@ -87,20 +109,13 @@ export function HabitCard({ habit }: HabitCardProps) {
       >
         <CardHeader className="flex flex-row items-center justify-between py-1 px-2">
           <div className="flex items-center gap-3 flex-1">
-            {/* Checkbox */}
+            {/* ✅ Enhanced Checkbox */}
             <div onClick={(e) => e.stopPropagation()}>
               <Checkbox
                 checked={isCompleted}
                 onCheckedChange={handleToggle}
-                className="h-6 w-6 rounded-full"
-                style={
-                  isCompleted && isHexColor(habit.color)
-                    ? {
-                        backgroundColor: habit.color,
-                        borderColor: habit.color,
-                      }
-                    : {}
-                }
+                className={checkboxClassName}
+                style={getCheckboxStyle()}
               />
             </div>
 
@@ -118,12 +133,12 @@ export function HabitCard({ habit }: HabitCardProps) {
                     )}
                   </span>
                 )}
-                <h3 className="font-semibold leading-none tracking-tight">
+                <h3 className="text-lg font-semibold leading-none tracking-tight">
                   {habit.name}
                 </h3>
               </div>
               {habit.description && (
-                <p className="text-sm text-muted-foreground line-clamp-1">
+                <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
                   {habit.description}
                 </p>
               )}
@@ -136,7 +151,7 @@ export function HabitCard({ habit }: HabitCardProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8  transition-opacity"
+                className="h-8 w-8 transition-opacity"
               >
                 <MoreVertical className="h-4 w-4" />
                 <span className="sr-only">Open menu</span>

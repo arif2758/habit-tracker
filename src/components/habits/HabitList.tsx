@@ -71,7 +71,7 @@ export function HabitList({
   }
 
   return (
-    <div className="grid gap-3 md:grid-cols-2 animate-slide-up">
+    <div className="grid gap-4 md:grid-cols-2 animate-slide-up">
       {sortedHabits.map((habit) => (
         <HabitCard key={habit._id} habit={habit} />
       ))}
