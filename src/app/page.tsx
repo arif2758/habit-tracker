@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useHabits } from "@/contexts/HabitContext";
 import { HabitList } from "@/components/habits/HabitList";
-import { WeekCalendar } from "@/components/calendar/WeekCalendar";
+import { WeekCalendar } from "@/components/calendar/WeekCalendar"; 
 import { Settings, Calendar } from "lucide-react";
 
 export default function DashboardPage() {

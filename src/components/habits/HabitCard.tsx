@@ -15,7 +15,7 @@ import {
 
 import { useHabits } from "@/contexts/HabitContext";
 import { COLOR_CONFIG } from "@/lib/constants";
-import { getIcon, IconMap } from "@/components/icons";
+import {  IconMap } from "@/components/icons";
 import { getToday } from "@/lib/utils";
 import type { Habit } from "@/lib/types";
 import { HabitDetailModal } from "./HabitDetailModal";
@@ -42,7 +42,7 @@ export function HabitCard({ habit }: HabitCardProps) {
   const handleDelete = () => {
     deleteHabit(habit._id);
   };
-
+ 
   const handleArchive = () => {
     archiveHabit(habit._id);
   };
@@ -55,12 +55,12 @@ export function HabitCard({ habit }: HabitCardProps) {
     <>
       <Card
         className={cn(
-          "group cursor-pointer hover:shadow-md transition-all duration-200 border-l-4",
+          "group cursor-pointer hover:shadow-md transition-all duration-200 border-l-4 py-1",
           borderColorClass
         )}
         onClick={() => setIsDetailOpen(true)}
       >
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4">
+        <CardHeader className="flex flex-row items-center justify-between py-1 px-2">
           <div className="flex items-center gap-3 flex-1">
             {/* Checkbox */}
             <div onClick={(e) => e.stopPropagation()}>
@@ -72,9 +72,9 @@ export function HabitCard({ habit }: HabitCardProps) {
             </div>
 
             {/* Habit Info */}
-            <div className="flex-1 space-y-1">
+            <div className="flex-1 space-y-">
               <div className="flex items-center gap-2">
-                <span className="text-xl flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary">
+                <span className="text-xl flex items-center justify-center rounded-full bg-primary/1 text-primary">
                   {IconMap[habit.icon] ? (
                     React.createElement(IconMap[habit.icon], {
                       className: "h-5 w-5",
@@ -101,7 +101,7 @@ export function HabitCard({ habit }: HabitCardProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="h-8 w-8  transition-opacity"
               >
                 <MoreVertical className="h-4 w-4" />
                 <span className="sr-only">Open menu</span>

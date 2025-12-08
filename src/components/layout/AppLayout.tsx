@@ -7,7 +7,7 @@ import { MobileNav } from "./MobileNav";
 import { CreateHabitDialog } from "@/components/habits/CreateHabitDialog";
 
 interface AppLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode; 
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
@@ -36,7 +36,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
         {/* 3. Main Content (Pushed right on desktop) */}
         <main className="flex-1 lg:pl-72">
-          <div className="container mx-auto max-w-7xl px-4 py-8 pb-24 lg:pb-12 animate-fade-in">
+          <div className="container mx-auto max-w-7xl px-4 py-2 pb-24 lg:pb-12 animate-fade-in">
             {children}
           </div>
         </main>

@@ -53,7 +53,7 @@ export function CreateHabitDialog({
 
   const handleTemplateSelect = (template: {
     name: string;
-    emoji: string;
+    emoji: string; 
     category: HabitCategory;
   }) => {
     // Check for duplicate habit name

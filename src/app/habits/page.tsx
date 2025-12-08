@@ -1,8 +1,7 @@
-'use client';
+'use client'; 
 
 import React, { useState, useMemo } from 'react';
 import { useHabits } from '@/contexts/HabitContext';
-
 import { HabitList } from '@/components/habits/HabitList';
 import type { HabitCategory } from '@/lib/types';
 import { HabitFilters } from '@/components/habits/HabitFilters';
@@ -12,58 +11,55 @@ export default function HabitsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<HabitCategory | 'all'>('all');
 
-  // Filter habits
   const filteredHabits = useMemo(() => {
     return habits.filter((habit) => {
-      // Filter archived
       if (habit.archived) return false;
-
-      // Filter by search
       if (searchQuery && !habit.name.toLowerCase().includes(searchQuery.toLowerCase())) {
         return false;
       }
-
-      // Filter by category
       if (selectedCategory !== 'all' && habit.category !== selectedCategory) {
         return false;
       }
-
       return true;
     });
   }, [habits, searchQuery, selectedCategory]);
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">All Habits</h1>
-          <p className="text-muted-foreground">
-            Manage and track all your habits in one place
-          </p>
+    // overflow-x-hidden এবং w-full অত্যন্ত জরুরি
+    <div className="w-full min-h-screen bg-background overflow-x-hidden pb-28">
+      
+      {/* max-w-lg এবং mx-auto ব্যবহার করে কন্টেন্ট মাঝখানে রাখা হয়েছে */}
+      <div className="container mx-auto px-4 pt-6 space-y-6 max-w-lg">
+        
+        {/* Header */}
+        <div className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">All Habits</h1>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">Manage your goals</p>
+            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+              {filteredHabits.length} shown
+            </span>
+          </div>
         </div>
-        <div className="text-sm text-muted-foreground">
-          {filteredHabits.length} of {habits.filter(h => !h.archived).length} habits
-        </div>
+
+        {/* Filters */}
+        <HabitFilters
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+        />
+
+        {/* List */}
+        <HabitList
+          habits={filteredHabits}
+          emptyMessage={
+            <div className="text-center py-8 text-muted-foreground text-sm">
+               No habits found.
+            </div>
+          }
+        />
       </div>
-
-      {/* Filters */}
-      <HabitFilters
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-      />
-
-      {/* Habits List */}
-      <HabitList
-        habits={filteredHabits}
-        emptyMessage={
-          searchQuery || selectedCategory !== 'all'
-            ? 'No habits match your filters.'
-            : 'No habits yet.'
-        }
-      />
     </div>
   );
 }
