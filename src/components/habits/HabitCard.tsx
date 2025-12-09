@@ -71,32 +71,38 @@ export function HabitCard({ habit }: HabitCardProps) {
       ? COLOR_CONFIG[habit.color].border
       : "";
 
-  // ✅ Checkbox style - গাঢ় করার জন্য
+  // ✅ Enhanced Checkbox style - আরও গাঢ় এবং visible
   const getCheckboxStyle = () => {
     if (isCompleted && isHexColor(habit.color)) {
       return {
         backgroundColor: habit.color,
         borderColor: habit.color,
+        boxShadow: `0 0 0 1px ${habit.color}`,
       };
     }
     return {};
   };
 
-  // ✅ Checkbox এর জন্য dynamic class
+  // ✅ Checkbox এর জন্য enhanced dynamic class - আরও গাঢ় border
   const checkboxClassName = cn(
-    "h-6 w-6 rounded-full transition-all",
-    // Dark mode এ আরও গাঢ় border
-    "border-2",
+    "h-7 w-7 rounded-full transition-all", // ✅ Size একটু বড় করা (6->7)
+    // ✅ আরও গাঢ় এবং thick border
+    "border-[2.5px]",
     isCompleted
-      ? "data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-      : "border-input hover:border-primary/60 dark:border-muted-foreground/40 dark:hover:border-primary/60"
+      ? "data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:shadow-md"
+      : // ✅ Unchecked state - আরও গাঢ় border
+        cn(
+          "border-zinc-400 dark:border-zinc-500", // Default গাঢ় border
+          "hover:border-primary/80 dark:hover:border-primary/70",
+          "hover:shadow-sm hover:scale-105"
+        )
   );
 
   return (
     <>
       <Card
         className={cn(
-          "group cursor-pointer hover:shadow-md transition-all duration-200 py-2",
+          "group cursor-pointer hover:shadow-md transition-all duration-200 py-3",
           isCompleted ? borderColorClass : "border-primary/40",
           isCompleted && !isHexColor(habit.color) && "bg-primary/10",
           "border-l-2"
@@ -107,9 +113,9 @@ export function HabitCard({ habit }: HabitCardProps) {
         }}
         onClick={() => setIsDetailOpen(true)}
       >
-        <CardHeader className="flex flex-row items-center justify-between py-1 px-2">
+        <CardHeader className="flex flex-row items-center justify-between py-1 px-3">
           <div className="flex items-center gap-3 flex-1">
-            {/* ✅ Enhanced Checkbox */}
+            {/* ✅ Enhanced Checkbox with better visibility */}
             <div onClick={(e) => e.stopPropagation()}>
               <Checkbox
                 checked={isCompleted}

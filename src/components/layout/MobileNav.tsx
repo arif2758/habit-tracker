@@ -24,7 +24,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
       <div className="rounded-t-3xl bg-background/40 backdrop-blur-2xl border-t border-x border-white/10 shadow-2xl dark:bg-black/40 dark:border-white/5">
         {/* Inner glow effect */}
         <div className="absolute inset-0 rounded-t-3xl bg-linear-to-t from-primary/5 via-transparent to-transparent pointer-events-none" />
-        
+
         <div className="relative flex items-center justify-between px-6 py-3 pb-safe">
           {/* Navigation Items */}
           {navItems.map((item) => {
@@ -70,27 +70,23 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
           })}
 
           {/* FAB Button */}
-          <div className="absolute left-1/2 -translate-x-1/2 -top-6">
-            {/* Outer glow */}
-            <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl animate-pulse" />
-            
+          <div className="absolute left-1/2 -translate-x-1/2 -top-3">
             <button
               onClick={onAddHabit}
               className={cn(
-                "relative h-14 w-14 rounded-full",
-                "bg-linear-to-br from-primary via-primary to-primary/90",
-                "shadow-lg shadow-primary/25",
+                "h-18 w-18 rounded-full",
+                "bg-primary",
                 "flex items-center justify-center",
                 "transition-all duration-300",
-                "hover:shadow-xl hover:shadow-primary/40 hover:scale-105",
+                "hover:scale-105",
                 "active:scale-95",
-                "border-4 border-background/50 backdrop-blur-sm",
-                "before:absolute before:inset-0 before:rounded-full",
-                "before:bg-linear-to-br before:from-white/20 before:to-transparent",
-                "before:opacity-50"
+                "border-4 border-background"
               )}
             >
-              <Plus className="h-7 w-7 text-primary-foreground relative z-10" strokeWidth={3} />
+              <Plus
+                className="h-7 w-7 text-primary-foreground"
+                strokeWidth={3}
+              />
             </button>
           </div>
         </div>
