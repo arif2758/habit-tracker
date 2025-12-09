@@ -115,15 +115,44 @@ export function HabitCard({ habit }: HabitCardProps) {
       >
         <CardHeader className="flex flex-row items-center justify-between py-1 px-3">
           <div className="flex items-center gap-3 flex-1">
-            {/* ✅ Enhanced Checkbox with better visibility */}
-            <div onClick={(e) => e.stopPropagation()}>
-              <Checkbox
-                checked={isCompleted}
-                onCheckedChange={handleToggle}
-                className={checkboxClassName}
-                style={getCheckboxStyle()}
-              />
-            </div>
+            {/* Actions Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 transition-opacity"
+                >
+                  <MoreVertical className="h-4 w-4" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <DropdownMenuItem onClick={() => setIsDetailOpen(true)}>
+                  <Eye className="mr-2 h-4 w-4" />
+                  View Details
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setIsEditOpen(true)}>
+                  <Edit className="mr-2 h-4 w-4" />
+                  Edit Habit
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleArchive}>
+                  <Archive className="mr-2 h-4 w-4" />
+                  Archive
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                  className="text-destructive"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Habit Info */}
             <div className="flex-1 space-y-">
@@ -151,44 +180,15 @@ export function HabitCard({ habit }: HabitCardProps) {
             </div>
           </div>
 
-          {/* Actions Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 transition-opacity"
-              >
-                <MoreVertical className="h-4 w-4" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <DropdownMenuItem onClick={() => setIsDetailOpen(true)}>
-                <Eye className="mr-2 h-4 w-4" />
-                View Details
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsEditOpen(true)}>
-                <Edit className="mr-2 h-4 w-4" />
-                Edit Habit
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleArchive}>
-                <Archive className="mr-2 h-4 w-4" />
-                Archive
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setIsDeleteDialogOpen(true)}
-                className="text-destructive"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* ✅ Enhanced Checkbox with better visibility */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <Checkbox
+              checked={isCompleted}
+              onCheckedChange={handleToggle}
+              className={checkboxClassName}
+              style={getCheckboxStyle()}
+            />
+          </div>
         </CardHeader>
       </Card>
 

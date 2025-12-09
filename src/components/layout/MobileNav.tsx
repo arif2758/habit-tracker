@@ -74,7 +74,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
             <button
               onClick={onAddHabit}
               className={cn(
-                "h-18 w-18 rounded-full",
+                "h-16 w-16 rounded-full",
                 "bg-primary",
                 "flex items-center justify-center",
                 "transition-all duration-300",
@@ -84,7 +84,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
               )}
             >
               <Plus
-                className="h-7 w-7 text-primary-foreground"
+                className="h-9 w-9 text-primary-foreground"
                 strokeWidth={3}
               />
             </button>
