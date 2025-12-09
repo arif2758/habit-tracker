@@ -57,7 +57,7 @@ export default function DashboardPage() {
             <Settings className="h-5 w-5" />
           </button>
         </Link>
-        <h1 className="text-lg font-semibold">Today&apos;s Habits</h1>
+        <h1 className="text-lg font-semibold">Today</h1>
         <Link href="/calendar">
           <button className="p-1.5 hover:bg-muted rounded-lg transition-colors">
             <Calendar className="h-5 w-5" />

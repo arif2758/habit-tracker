@@ -103,7 +103,7 @@ export function HabitCard({ habit }: HabitCardProps) {
       <Card
         className={cn(
           "group cursor-pointer hover:shadow-md transition-all duration-200 py-3",
-          isCompleted ? borderColorClass : "border-primary/40",
+          isCompleted ? borderColorClass : "border-primary/40 ",
           isCompleted && !isHexColor(habit.color) && "bg-primary/10",
           "border-l-2"
         )}
