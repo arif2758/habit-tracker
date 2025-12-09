@@ -51,9 +51,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
                     )}
                     strokeWidth={isActive ? 2.5 : 2}
                   />
-                  {isActive && (
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary animate-pulse" />
-                  )}
+                 
                 </div>
                 <span
                   className={cn(

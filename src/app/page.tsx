@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
+
 import { useHabits } from "@/contexts/HabitContext";
 import { HabitList } from "@/components/habits/HabitList";
 import { WeekCalendar } from "@/components/calendar/WeekCalendar";
-import { Settings, Calendar } from "lucide-react";
 
 export default function DashboardPage() {
   const { loading, habits } = useHabits();
@@ -49,22 +48,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-4 max-w-2xl mx-auto pb-24">
-      {/* Header - Compact */}
-      <div className="flex items-center justify-between pt-2">
-        <Link href="/settings">
-          <button className="p-1.5 hover:bg-muted rounded-lg transition-colors">
-            <Settings className="h-5 w-5" />
-          </button>
-        </Link>
-        <h1 className="text-lg font-semibold">Today</h1>
-        <Link href="/calendar">
-          <button className="p-1.5 hover:bg-muted rounded-lg transition-colors">
-            <Calendar className="h-5 w-5" />
-          </button>
-        </Link>
-      </div>
-
+    <div className="space-y-3 max-w-2xl mx-auto pb-24">
       {/* Week Calendar - Compact */}
       <div className="px-2">
         <WeekCalendar
@@ -91,7 +75,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Habits List - Compact */}
-      <div className="px-2">
+      <div className="px-2 pt-3">
         <HabitList
           habits={dailyHabits}
           emptyMessage="No daily habits yet. Create your first habit to get started!"

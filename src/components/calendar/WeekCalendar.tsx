@@ -7,7 +7,7 @@ import { format, addDays, startOfWeek, isSameDay, isToday } from "date-fns";
 interface WeekCalendarProps {
   selectedDate: Date;
   onDateSelect: (date: Date) => void;
-}
+} 
 
 export function WeekCalendar({
   selectedDate,
@@ -29,7 +29,7 @@ export function WeekCalendar({
               key={day.toISOString()}
               onClick={() => onDateSelect(day)}
               className={cn(
-                "flex flex-col items-center justify-center py-2 sm:py-2.5 px-1 sm:px-2 rounded-lg",
+                "flex flex-col items-center justify-center p-1 sm:p-2 rounded-lg",
                 "transition-all duration-200 ease-out",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
                 // Today + Selected state

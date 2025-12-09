@@ -1,3 +1,4 @@
+// src\contexts\HabitContext.tsx
 "use client";
 
 import React, {
@@ -11,10 +12,6 @@ import React, {
 } from "react";
 import { toast } from "sonner";
 import { parseISO } from "date-fns";
-import {
-  triggerConfetti,
-  triggerStreakConfetti,
-} from "@/components/ui/confetti";
 
 // Import types
 import type { Habit, HabitStats } from "@/lib/types";
@@ -162,14 +159,11 @@ export function HabitProvider({ children }: { children: ReactNode }) {
     [refreshHabits]
   );
 
-  // Toggle completion
+  // ✅ Toggle completion - WITHOUT notifications
   const toggleCompletion = useCallback(
     async (habitId: string, date: string) => {
       const habit = habits.find((h) => h._id === habitId);
       if (!habit) return;
-
-      const existingCompletion = habit.completions.find((c) => c.date === date);
-      const isCompleting = !existingCompletion?.completed;
 
       try {
         // Optimistic update
@@ -199,27 +193,8 @@ export function HabitProvider({ children }: { children: ReactNode }) {
           setHabits((prev) =>
             prev.map((h) => (h._id === habitId ? updatedHabit : h))
           );
-
-          // Show celebration for completions
-          if (isCompleting) {
-            const newStreak = updatedHabit.streak || 0;
-
-            if (newStreak > 0 && newStreak % 7 === 0) {
-              triggerStreakConfetti(newStreak);
-              toast.success(`🔥 ${newStreak} Day Streak!`, {
-                description: `Incredible! You're on fire!`,
-              });
-            } else if (newStreak >= 3) {
-              triggerConfetti();
-              toast.success(`🎉 ${newStreak} Day Streak!`, {
-                description: `Amazing! Keep it up!`,
-              });
-            } else {
-              toast.success("Habit completed for today", {
-                description: `${habit.name} completed for today`,
-              });
-            }
-          }
+          
+          // ✅ NO notifications or confetti - silent update
         }
       } catch (error) {
         console.error("Error toggling completion:", error);

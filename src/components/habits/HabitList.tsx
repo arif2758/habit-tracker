@@ -2,11 +2,12 @@
 "use client";
 
 import React from "react";
-import { HabitCard } from "./HabitCard";
+
 import type { Habit } from "@/lib/types";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getToday } from "@/lib/utils";
+import { HabitCard } from "./HabitCard";
 
 interface HabitListProps {
   habits: Habit[];

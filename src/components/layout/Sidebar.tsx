@@ -16,7 +16,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const navigation = [
   {
-    title: "Main",
     items: [
       { name: "Dashboard", href: "/", icon: Home },
       { name: "All Habits", href: "/habits", icon: ListTodo },
@@ -38,7 +37,7 @@ export function Sidebar() {
   return (
     <div className="flex h-full flex-col bg-transparent">
       {/* Navigation */}
-      <ScrollArea className="flex-1 px-4 py-6">
+      <ScrollArea className="flex-1 px-4 py-1">
         <div className="space-y-6">
           {navigation.map((section) => (
             <div key={section.title}>
