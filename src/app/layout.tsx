@@ -1,5 +1,6 @@
+// src\app\layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Sora } from "next/font/google";
 import "./globals.css";
 import { HabitProvider } from "@/contexts/HabitContext";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
@@ -8,13 +9,19 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { RegisterSW } from "@/components/RegisterSW";
 
-const inter = Inter({ subsets: ["latin"] });
+// ✅ Sora font
+const sora = Sora({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-sora",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 1, 
 };
 
 export const metadata: Metadata = {
@@ -54,7 +61,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={sora.className}>
         <ErrorBoundary>
           <ThemeProvider
             attribute="class"

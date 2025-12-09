@@ -50,17 +50,17 @@ export function HabitCard({ habit }: HabitCardProps) {
     archiveHabit(habit._id);
   };
 
-  // Get border color based on habit color
+  // ✅ Get border color based on habit color - updated for border-l-2
   const getBorderStyle = () => {
     if (isHexColor(habit.color)) {
       return {
-        borderColor: isCompleted ? habit.color : `${habit.color}40`,
+        borderLeftColor: isCompleted ? habit.color : `${habit.color}60`, // ✅ 60 instead of 40 for better visibility
         backgroundColor: isCompleted ? `${habit.color}15` : undefined,
       };
     }
     if (!isCompleted && COLOR_CONFIG[habit.color]) {
       return {
-        borderColor: `${habit.color}40`,
+        borderLeftColor: `${habit.color}60`, // ✅ Slightly more visible
       };
     }
     return {};
@@ -71,7 +71,7 @@ export function HabitCard({ habit }: HabitCardProps) {
       ? COLOR_CONFIG[habit.color].border
       : "";
 
-  // ✅ Enhanced Checkbox style - আরও গাঢ় এবং visible
+  // Enhanced Checkbox style
   const getCheckboxStyle = () => {
     if (isCompleted && isHexColor(habit.color)) {
       return {
@@ -83,16 +83,14 @@ export function HabitCard({ habit }: HabitCardProps) {
     return {};
   };
 
-  // ✅ Checkbox এর জন্য enhanced dynamic class - আরও গাঢ় border
+  // Checkbox dynamic class
   const checkboxClassName = cn(
-    "h-7 w-7 rounded-full transition-all", // ✅ Size একটু বড় করা (6->7)
-    // ✅ আরও গাঢ় এবং thick border
+    "h-7 w-7 rounded-full transition-all",
     "border-[2.5px]",
     isCompleted
       ? "data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:shadow-md"
-      : // ✅ Unchecked state - আরও গাঢ় border
-        cn(
-          "border-zinc-400 dark:border-zinc-500", // Default গাঢ় border
+      : cn(
+          "border-zinc-400 dark:border-zinc-500",
           "hover:border-primary/80 dark:hover:border-primary/70",
           "hover:shadow-sm hover:scale-105"
         )
@@ -103,13 +101,13 @@ export function HabitCard({ habit }: HabitCardProps) {
       <Card
         className={cn(
           "group cursor-pointer hover:shadow-md transition-all duration-200 py-3",
-          isCompleted ? borderColorClass : "border-primary/40 ",
-          isCompleted && !isHexColor(habit.color) && "bg-primary/10",
-          "border-l-2"
+          "border-l-2", // ✅ Always apply border-l-2
+          isCompleted ? borderColorClass : "border-primary/40",
+          isCompleted && !isHexColor(habit.color) && "bg-primary/10"
         )}
         style={{
           ...getBorderStyle(),
-          borderLeftWidth: isCompleted ? "4px" : "1px",
+          borderLeftWidth: isCompleted ? "4px" : "3px", // ✅ 4px when completed, 2px when not
         }}
         onClick={() => setIsDetailOpen(true)}
       >
@@ -180,7 +178,7 @@ export function HabitCard({ habit }: HabitCardProps) {
             </div>
           </div>
 
-          {/* ✅ Enhanced Checkbox with better visibility */}
+          {/* Enhanced Checkbox with better visibility */}
           <div onClick={(e) => e.stopPropagation()}>
             <Checkbox
               checked={isCompleted}
