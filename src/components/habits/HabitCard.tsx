@@ -166,7 +166,7 @@ export function HabitCard({ habit }: HabitCardProps) {
                     )}
                   </span>
                 )}
-                <h3 className="text-lg font-semibold leading-none tracking-tight">
+                <h3 className=" font-semibold leading-none tracking-tight">
                   {habit.name}
                 </h3>
               </div>
