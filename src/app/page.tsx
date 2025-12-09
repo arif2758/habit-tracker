@@ -73,17 +73,18 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Progress Section - Compact */}
+      {/* ✅ Progress Section - Simple but Clear */}
       <div className="space-y-2 px-2">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-muted-foreground">
+          <h2 className="text-sm font-bold text-foreground">
             Progress
           </h2>
-          <span className="text-sm font-medium">
+          <span className="text-sm font-bold text-primary">
             {completedCount}/{totalCount}
           </span>
         </div>
-        <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+        {/* ✅ Enhanced Progress Bar - Simple & Clear */}
+        <div className="h-2.5 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden ">
           <div
             className="h-full bg-primary transition-all duration-500"
             style={{ width: `${progressPercentage}%` }}
