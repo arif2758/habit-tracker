@@ -3,11 +3,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, BarChart3, Plus } from "lucide-react";
+import {BarChart3, Plus, Blocks } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "Home", href: "/", icon: Home },
+  { name: "Home", href: "/", icon: Blocks },
   { name: "Stats", href: "/statistics", icon: BarChart3 },
 ];
 
