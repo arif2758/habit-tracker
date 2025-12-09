@@ -66,7 +66,7 @@ export default function DashboardPage() {
           </span>
         </div>
         {/* ✅ Enhanced Progress Bar - Simple & Clear */}
-        <div className="h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden ">
+        <div className="h-1 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden ">
           <div
             className="h-full bg-primary transition-all duration-500"
             style={{ width: `${progressPercentage}%` }}
@@ -75,7 +75,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Habits List - Compact */}
-      <div className="px-2 pt-3">
+      <div className="px-2 pt-1">
         <HabitList
           habits={dailyHabits}
           emptyMessage="No daily habits yet. Create your first habit to get started!"
