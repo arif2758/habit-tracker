@@ -56,14 +56,16 @@ export function HabitCard({ habit }: HabitCardProps) {
     const habitColor = isHex ? habit.color : "hsl(var(--primary))";
 
     // 1. Color Logic: Completed হলে ফুল কালার, না হলে ৬০% অপাসিটি
-    const borderColor = isCompleted 
-      ? habitColor 
-      : (isHex ? `${habitColor}60` : `${habitColor}60`);
+    const borderColor = isCompleted
+      ? habitColor
+      : isHex
+      ? `${habitColor}60`
+      : `${habitColor}60`;
 
     // Style object
     const style: React.CSSProperties = {
       borderColor: borderColor, // চারপাশের বর্ডার কালার সেট করা হলো
-      borderLeftWidth: "4px",   // বাম পাশের বর্ডার ফিক্সড মোটা রাখা হলো
+      borderLeftWidth: "4px", // বাম পাশের বর্ডার ফিক্সড মোটা রাখা হলো
     };
 
     // Background Gradient Logic (Only for completed)
@@ -105,19 +107,19 @@ export function HabitCard({ habit }: HabitCardProps) {
         <Card
           className={cn(
             "relative overflow-hidden cursor-pointer transition-all duration-300 py-3",
-            
+
             // ✅ Layout Classes
-            "border",        // চারদিকে ১পিক্সেল বর্ডার এনাবল করা হলো
-            "border-l-4",    // বাম দিকে ৪পিক্সেল
-            
+            "border", // চারদিকে ১পিক্সেল বর্ডার এনাবল করা হলো
+            "border-l-4", // বাম দিকে ৪পিক্সেল
+
             // ✅ Glass & Background
             "bg-background/40 dark:bg-background/20",
             "backdrop-blur-xl",
-            
+
             // ✅ Hover Effects
             "hover:shadow-lg hover:scale-[1.02]",
             "active:scale-[0.98]",
-            
+
             // ডিফল্ট বর্ডার কালার (যদি হেক্স না হয়)
             // ইনলাইন স্টাইল দিয়ে ওভাররাইড হবে, তবে ফলব্যাকের জন্য রাখা যেতে পারে
             !isHexColor(habit.color) ? "border-primary/40" : ""
@@ -136,8 +138,8 @@ export function HabitCard({ habit }: HabitCardProps) {
             />
           )}
 
-          {/* ✅ Original Height - Perfect Alignment */}
-          <CardHeader className="relative flex flex-row items-center justify-between py-1 px-3 gap-3">
+          {/* ✅ FIXED: Perfect Alignment */}
+          <CardHeader className="relative flex flex-row items-center justify-between py-2 px-3 gap-3">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* Actions Menu */}
               <DropdownMenu>
@@ -148,7 +150,7 @@ export function HabitCard({ habit }: HabitCardProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 hover:bg-white/10 dark:hover:bg-white/5 transition-colors"
+                    className="h-9 w-9 shrink-0 hover:bg-white/10 dark:hover:bg-white/5 transition-colors"
                   >
                     <MoreVertical className="h-4 w-4" />
                     <span className="sr-only">Open menu</span>
@@ -192,27 +194,27 @@ export function HabitCard({ habit }: HabitCardProps) {
               </DropdownMenu>
 
               {/* Habit Info */}
-              <div className="flex-1 min-w-0 space-y-0">
+              <div className="flex-1 min-w-0 flex flex-col justify-center">
                 <div className="flex items-center gap-2">
                   {habit.icon && (
-                    <div className="flex items-center justify-center p-1.5 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
+                    <div className="flex items-center justify-center h-6 w-6 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
                       {IconMap[habit.icon] ? (
                         React.createElement(IconMap[habit.icon], {
                           className: "h-4 w-4 text-primary",
                         })
                       ) : (
-                        <span className="text-base leading-none">
+                        <span className="text-sm leading-none">
                           {habit.icon}
                         </span>
                       )}
                     </div>
                   )}
-                  <h3 className="font-semibold leading-none tracking-tight">
+                  <h3 className="font-semibold text-base leading-none tracking-tight">
                     {habit.name}
                   </h3>
                 </div>
                 {habit.description && (
-                  <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
+                  <p className="text-sm text-muted-foreground line-clamp-1 mt-1 leading-tight">
                     {habit.description}
                   </p>
                 )}
@@ -220,7 +222,10 @@ export function HabitCard({ habit }: HabitCardProps) {
             </div>
 
             {/* Checkbox */}
-            <div onClick={(e) => e.stopPropagation()}>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center shrink-0"
+            >
               <Checkbox
                 checked={isCompleted}
                 onCheckedChange={handleToggle}

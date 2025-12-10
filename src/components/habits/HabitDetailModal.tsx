@@ -2,7 +2,15 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import {
+  BadgeCheck,
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  Grid2x2Check,
+  Medal,
+  X,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -142,7 +150,7 @@ export function HabitDetailModal({
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 <PremiumStatCard
-                  emoji="🔥"
+                  icon={Grid2x2Check}
                   value={stats.currentStreak}
                   label="Current"
                   sublabel="Streak"
@@ -150,7 +158,7 @@ export function HabitDetailModal({
                   glowColor="orange"
                 />
                 <PremiumStatCard
-                  emoji="🏆"
+                  icon={Medal}
                   value={stats.bestStreak}
                   label="Best"
                   sublabel="Streak"
@@ -158,7 +166,7 @@ export function HabitDetailModal({
                   glowColor="yellow"
                 />
                 <PremiumStatCard
-                  emoji="📅"
+                  icon={CalendarDays}
                   value={stats.doneInMonth}
                   label="This"
                   sublabel="Month"
@@ -166,7 +174,7 @@ export function HabitDetailModal({
                   glowColor="blue"
                 />
                 <PremiumStatCard
-                  emoji="✅"
+                  icon={BadgeCheck}
                   value={stats.totalDone}
                   label="Total"
                   sublabel="Done"
@@ -313,7 +321,7 @@ export function HabitDetailModal({
 
 // Premium Stat Card - Eye-catching but Minimal
 interface PremiumStatCardProps {
-  emoji: string;
+  icon: React.ElementType; // ✅ Changed from string to React component type
   value: number;
   label: string;
   sublabel: string;
@@ -322,7 +330,7 @@ interface PremiumStatCardProps {
 }
 
 function PremiumStatCard({
-  emoji,
+  icon: Icon, // ✅ Renamed for React component convention
   value,
   label,
   sublabel,
@@ -351,10 +359,7 @@ function PremiumStatCard({
     >
       {/* Gradient Background */}
       <div
-        className={cn(
-          "absolute inset-0 bg-linear-to-br opacity-100",
-          gradient
-        )}
+        className={cn("absolute inset-0 bg-linear-to-br opacity-100", gradient)}
       />
 
       {/* Glow Effect on Hover */}
@@ -367,9 +372,9 @@ function PremiumStatCard({
 
       {/* Content */}
       <div className="relative flex items-center justify-between">
-        {/* Emoji Icon */}
+        {/* Icon */}
         <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/20 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-          <span className="text-2xl leading-none">{emoji}</span>
+          <Icon className="w-6 h-6" /> {/* ✅ Render Lucide icon component */}
         </div>
 
         {/* Value & Label */}

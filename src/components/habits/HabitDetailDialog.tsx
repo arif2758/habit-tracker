@@ -80,7 +80,7 @@ export function HabitDetailDialog({
                 </div>
               </div>
             </div>
-          </DialogHeader>
+          </DialogHeader> 
 
           <Separator />
 
