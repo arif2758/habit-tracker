@@ -240,11 +240,11 @@ export function CreateHabitDialog({
                   presetColors={[
                     "#6900E1", // violet / electric purple
                     "#00E054", // bright green
-                    "#003DE0", // royal blue
+                    "#003DE0",
+                    "#E154D1", // royal blue
                     "#162329", // charcoal / deep gray
                     "#E15B07", // orange
                     "#1AB7E1", // sky blue / cyan-blue
-                    "#ef4444", // red
                     "#E01B51", // magenta / rose pink
                   ]}
                 />
