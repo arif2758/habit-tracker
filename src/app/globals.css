@@ -6,8 +6,6 @@
 /* ===== Design Tokens ===== */
 :root { 
 
-  --action: #5f27cd; /* ✅ Added semicolon */
-  
   /* OKLCH Color Palette - Light Mode */
   --background: oklch(0.985 0.002 247.839); /* Soft White */
   --foreground: oklch(0.145 0.02 260); /* Deep Navy/Black */
@@ -18,7 +16,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0.02 260);
 
-  --primary: oklch(0.55 0.22 260); /* Vibrant Purple/Blue */
+  --primary: oklch(0.47 0.21 292); /* ✅ Vibrant Purple - #5f27cd */
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.96 0.01 260);
@@ -35,31 +33,31 @@
 
   --border: oklch(0.92 0.01 260);
   --input: oklch(0.92 0.01 260);
-  --ring: oklch(0.55 0.22 260);
+  --ring: oklch(0.47 0.21 292); /* ✅ Updated to match primary */
 
   --radius: 0.75rem;
 
   /* Chart Colors */
   --chart-1: oklch(0.6 0.18 25);
   --chart-2: oklch(0.65 0.18 150);
-  --chart-3: oklch(0.55 0.22 260);
+  --chart-3: oklch(0.47 0.21 292); /* ✅ Updated to match primary */
   --chart-4: oklch(0.7 0.15 80);
   --chart-5: oklch(0.6 0.15 300);
 
   /* Sidebar */
   --sidebar: oklch(0.985 0.002 247.839);
   --sidebar-foreground: oklch(0.145 0.02 260);
-  --sidebar-primary: oklch(0.55 0.22 260);
+  --sidebar-primary: oklch(0.47 0.21 292); /* ✅ Updated to match primary */
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.96 0.01 260);
   --sidebar-accent-foreground: oklch(0.205 0.05 260);
   --sidebar-border: oklch(0.92 0.01 260);
-  --sidebar-ring: oklch(0.55 0.22 260);
+  --sidebar-ring: oklch(0.47 0.21 292); /* ✅ Updated to match primary */
 }
 
 .dark {
   /* OKLCH Color Palette - Dark Mode */
-  --background:oklch(0.0699 0 0); /* Deep Dark Blue/Gray */
+  --background: oklch(0.0699 0 0); /* Deep Dark Blue/Gray */
   --foreground: oklch(0.985 0.005 260);
 
   --card: oklch(0.16 0.02 260);
@@ -68,7 +66,7 @@
   --popover: oklch(0.16 0.02 260);
   --popover-foreground: oklch(0.985 0.005 260);
 
-  --primary: oklch(0.65 0.22 260); /* Slightly lighter for dark mode */
+  --primary: oklch(0.55 0.21 292); /* ✅ Lighter version for dark mode - #5f27cd adjusted */
   --primary-foreground: oklch(0.12 0.02 260);
 
   --secondary: oklch(0.22 0.03 260);
@@ -85,17 +83,17 @@
 
   --border: oklch(0.22 0.03 260);
   --input: oklch(0.22 0.03 260);
-  --ring: oklch(0.65 0.22 260);
+  --ring: oklch(0.55 0.21 292); /* ✅ Updated to match primary */
 
   /* Sidebar Dark */
   --sidebar: oklch(0.12 0.02 260);
   --sidebar-foreground: oklch(0.985 0.005 260);
-  --sidebar-primary: oklch(0.65 0.22 260);
+  --sidebar-primary: oklch(0.55 0.21 292); /* ✅ Updated to match primary */
   --sidebar-primary-foreground: oklch(0.12 0.02 260);
   --sidebar-accent: oklch(0.22 0.03 260);
   --sidebar-accent-foreground: oklch(0.985 0.005 260);
   --sidebar-border: oklch(0.22 0.03 260);
-  --sidebar-ring: oklch(0.65 0.22 260);
+  --sidebar-ring: oklch(0.55 0.21 292); /* ✅ Updated to match primary */
 }
 
 @theme inline {
@@ -135,9 +133,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  
-  /* ✅ Action Color */
-  --color-action: var(--action);
 
   /* Animation Utilities */
   --animate-fade-in: fadeIn 0.5s ease-out;
@@ -206,19 +201,6 @@
 
   .text-gradient {
     @apply bg-clip-text text-transparent bg-linear-to-r from-primary to-purple-400 dark:to-purple-300;
-  }
-  
-  /* ✅ Action color utilities */
-  .bg-action {
-    background-color: var(--action);
-  }
-  
-  .text-action {
-    color: var(--action);
-  }
-  
-  .border-action {
-    border-color: var(--action);
   }
 }
 

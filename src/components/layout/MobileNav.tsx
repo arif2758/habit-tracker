@@ -17,7 +17,7 @@ interface MobileNavProps {
 
 export function MobileNav({ onAddHabit }: MobileNavProps) {
   const pathname = usePathname();
- 
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
       {/* ✅ Glassmorphism Container - একদম নিচে */}
@@ -44,7 +44,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
                 <div className="relative">
                   <Icon
                     className={cn(
-                      "h-6 w-6 transition-all duration-300", 
+                      "h-6 w-6 transition-all duration-300",
                       isActive
                         ? "text-primary scale-110"
                         : "text-muted-foreground"
@@ -73,7 +73,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
               onClick={onAddHabit}
               className={cn(
                 "h-16 w-16 rounded-full",
-                "bg-action",
+                "bg-primary",
                 "flex items-center justify-center",
                 "transition-all duration-300",
                 "hover:scale-105",
