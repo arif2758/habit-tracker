@@ -77,7 +77,7 @@ export function HabitTemplates({
   const toggleCategory = (category: string) => {
     setExpandedCategories((prev) =>
       prev.includes(category)
-        ? prev.filter((c) => c !== category)
+        ? prev.filter((c) => c !== category) 
         : [...prev, category]
     );
   };

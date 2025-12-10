@@ -1,4 +1,5 @@
 // src\components\habits\HabitCard.tsx
+
 "use client";
 
 import React, { useState } from "react";
@@ -42,41 +43,34 @@ export function HabitCard({ habit }: HabitCardProps) {
   };
 
   const handleDelete = () => {
-    deleteHabit(habit._id); 
+    deleteHabit(habit._id);
   };
 
   const handleArchive = () => {
     archiveHabit(habit._id);
   };
 
-  // ✅ FIX: ESLint Errors resolved 
   const getGlassStyle = () => {
     const isHex = isHexColor(habit.color);
-    // ESLint fix: 'let' changed to 'const'
     const habitColor = isHex ? habit.color : "hsl(var(--primary))";
 
-    // 1. Color Logic: Completed হলে ফুল কালার, না হলে ৬০% অপাসিটি
     const borderColor = isCompleted
       ? habitColor
       : isHex
       ? `${habitColor}60`
       : `${habitColor}60`;
 
-    // Style object
     const style: React.CSSProperties = {
-      borderColor: borderColor, // চারপাশের বর্ডার কালার সেট করা হলো
-      borderLeftWidth: "4px", // বাম পাশের বর্ডার ফিক্সড মোটা রাখা হলো
+      borderColor: borderColor,
+      borderLeftWidth: "4px",
     };
 
-    // Background Gradient Logic (Only for completed)
     if (isCompleted && isHex) {
       style.background = `linear-gradient(to right, ${habitColor}15, transparent)`;
     }
 
     return style;
   };
-
-  // ESLint fix: Removed unused 'borderColorClass' variable
 
   const getCheckboxStyle = () => {
     if (isCompleted && isHexColor(habit.color)) {
@@ -86,7 +80,7 @@ export function HabitCard({ habit }: HabitCardProps) {
         boxShadow: `0 0 0 1px ${habit.color}`,
       };
     }
-    return {}; 
+    return {};
   };
 
   const checkboxClassName = cn(
@@ -106,21 +100,19 @@ export function HabitCard({ habit }: HabitCardProps) {
       <div className="relative group">
         <Card
           className={cn(
-            "relative overflow-hidden cursor-pointer transition-all duration-300 py-3",
+            "relative overflow-hidden cursor-pointer transition-all duration-300",
+            // ✅ FIX: হাইট ফিক্সড এবং আইটেম সেন্টার করা হলো, প্যাডিং সরানো হলো
+            "h-[88px]",
 
-            
-            "border",  "border-l-4",
+            "border",
+            "border-l-4",
 
-            // ✅ Glass & Background
             "bg-background/40 dark:bg-background/20",
             "backdrop-blur-xl",
 
-            // ✅ Hover Effects
             "hover:shadow-lg hover:scale-[1.02]",
             "active:scale-[0.98]",
 
-            // ডিফল্ট বর্ডার কালার (যদি হেক্স না হয়)
-            // ইনলাইন স্টাইল দিয়ে ওভাররাইড হবে, তবে ফলব্যাকের জন্য রাখা যেতে পারে
             !isHexColor(habit.color) ? "border-primary/40" : ""
           )}
           style={getGlassStyle()}
@@ -137,8 +129,8 @@ export function HabitCard({ habit }: HabitCardProps) {
             />
           )}
 
-          {/* ✅ FIXED: Perfect Alignment */}
-          <CardHeader className="relative flex flex-row items-center justify-between py-2 px-3 gap-3">
+          {/* ✅ FIX: CardHeader পুরো হাইট নিবে এবং ভেতরের সব কিছু সেন্টার করবে */}
+          <CardHeader className="flex flex-row items-center justify-between h-full w-full p-4 space-y-0">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* Actions Menu */}
               <DropdownMenu>
@@ -223,7 +215,7 @@ export function HabitCard({ habit }: HabitCardProps) {
             {/* Checkbox */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center shrink-0"
+              className="flex items-center shrink-0 pl-2"
             >
               <Checkbox
                 checked={isCompleted}
@@ -236,21 +228,17 @@ export function HabitCard({ habit }: HabitCardProps) {
         </Card>
       </div>
 
-      {/* Detail Modal */}
+      {/* Modals & Dialogs (No changes here) */}
       <HabitDetailModal
         habit={habit}
         open={isDetailOpen}
         onOpenChange={setIsDetailOpen}
       />
-
-      {/* Edit Dialog */}
       <EditHabitDialog
         habit={habit}
         open={isEditOpen}
         onOpenChange={setIsEditOpen}
       />
-
-      {/* Delete Confirmation Dialog */}
       <DeleteConfirmDialog
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}

@@ -302,7 +302,7 @@ export function CreateHabitDialog({
                   <div className="flex justify-between gap-1">
                     {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
                       <button
-                        key={index}
+                        key={index} 
                         type="button"
                         onClick={() => {
                           setTargetDays((prev) =>
