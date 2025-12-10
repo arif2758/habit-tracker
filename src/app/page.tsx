@@ -74,7 +74,7 @@ export default function DashboardPage() {
               {/* Progress Bar */}
               <div className="h-2 bg-gray-300 dark:bg-zinc-700/50 rounded-full overflow-hidden backdrop-blur-sm  ">
                 <div
-                  className="h-full bg-linear-to-r from-primary to-primary/80 transition-all duration-500 shadow-sm"
+                  className="h-full bg-linear-to-r from-action to-action/80 transition-all duration-500 shadow-sm"
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>

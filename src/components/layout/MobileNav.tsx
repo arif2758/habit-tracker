@@ -44,7 +44,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
                 <div className="relative">
                   <Icon
                     className={cn(
-                      "h-6 w-6 transition-all duration-300",
+                      "h-6 w-6 transition-all duration-300", 
                       isActive
                         ? "text-primary scale-110"
                         : "text-muted-foreground"
@@ -73,7 +73,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
               onClick={onAddHabit}
               className={cn(
                 "h-16 w-16 rounded-full",
-                "bg-primary",
+                "bg-action",
                 "flex items-center justify-center",
                 "transition-all duration-300",
                 "hover:scale-105",

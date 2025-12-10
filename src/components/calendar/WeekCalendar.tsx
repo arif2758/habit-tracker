@@ -18,7 +18,7 @@ export function WeekCalendar({
 
   return (
     <div className="w-full px-1">
-      {/* Week Days Grid */}
+      {/* Week Days Grid */} 
       <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
         {weekDays.map((day) => {
           const isSelected = isSameDay(day, selectedDate);
@@ -35,7 +35,7 @@ export function WeekCalendar({
                 // Today + Selected state
                 isSelected &&
                   isTodayDate &&
-                  "bg-primary text-primary-foreground shadow-md hover:shadow-lg hover:bg-primary/95",
+                  "bg-action text-primary-foreground shadow-md hover:shadow-lg hover:bg-action/95",
                 // Selected but not today
                 isSelected &&
                   !isTodayDate &&

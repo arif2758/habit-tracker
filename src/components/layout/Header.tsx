@@ -10,7 +10,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   Sheet,
   SheetContent,
-  SheetTrigger,
+  SheetTrigger, 
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -54,7 +54,7 @@ export function Header({ onAddHabit }: HeaderProps) {
             <Button
               onClick={onAddHabit}
               size="sm"
-              className="hidden sm:flex gap-2 bg-primary hover:bg-primary/90 transition-all shadow-sm hover:shadow-md"
+              className="hidden sm:flex gap-2 bg-action hover:bg-action/90 transition-all shadow-sm hover:shadow-md"
             >
               <Plus className="h-4 w-4" />
               <span className="font-semibold">Add Habit</span>
