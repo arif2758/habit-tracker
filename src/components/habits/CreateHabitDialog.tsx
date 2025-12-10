@@ -52,7 +52,7 @@ export function CreateHabitDialog({
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">("daily");
   const [description, setDescription] = React.useState("");
   const [targetDays, setTargetDays] = React.useState<number[]>([]);
-  const [habitName, setHabitName] = React.useState(""); // ✅ State for name
+  const [habitName, setHabitName] = React.useState("");
 
   // ---- TEMPLATE HANDLER ----
   const handleTemplateSelect = (template: {
@@ -73,11 +73,12 @@ export function CreateHabitDialog({
       return;
     }
 
+    // ✅ Template habits use HEX color instead of "blue"
     const habitData = {
       name: template.name,
       description: `Daily ${template.name} habit`,
       category: template.category,
-      color: "blue" as HabitColor,
+      color: "#3b82f6" as HabitColor, // ✅ Changed from "blue" to hex
       icon: template.emoji,
       frequency: "daily" as const,
     };
@@ -113,9 +114,8 @@ export function CreateHabitDialog({
       return;
     }
 
-    // ✅ habitName থেকে সরাসরি নেওয়া হচ্ছে, spaces preserve হবে
     const habitData = {
-      name: habitName, // ✅ Multiple spaces সহ
+      name: habitName,
       description: description,
       category: category,
       color: selectedColor,
@@ -131,7 +131,7 @@ export function CreateHabitDialog({
 
   const resetForm = () => {
     formRef.current?.reset();
-    setHabitName(""); // ✅ Reset name state
+    setHabitName("");
     setCategory("health");
     setSelectedColor("#3b82f6");
     setFrequency("daily");
@@ -148,7 +148,7 @@ export function CreateHabitDialog({
     if (!open) {
       setViewMode("templates");
       setDescription("");
-      setHabitName(""); // ✅ Reset name
+      setHabitName("");
     }
     onOpenChange(open);
   };
@@ -178,7 +178,7 @@ export function CreateHabitDialog({
                   Choose a template or create your own
                 </DialogDescription>
               )}
-            </div> 
+            </div>
           </div>
         </DialogHeader>
 
@@ -203,7 +203,7 @@ export function CreateHabitDialog({
                   required
                   autoFocus
                   value={habitName}
-                  onChange={(e) => setHabitName(e.target.value)} // ✅ Controlled input
+                  onChange={(e) => setHabitName(e.target.value)}
                   className="h-12 text-base bg-muted/30"
                   style={{ whiteSpace: "pre-wrap" }}
                 />

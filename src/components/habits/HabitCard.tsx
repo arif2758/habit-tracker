@@ -49,7 +49,7 @@ export function HabitCard({ habit }: HabitCardProps) {
     archiveHabit(habit._id);
   };
 
-  // ✅ FIX: ESLint Errors resolved
+  // ✅ FIX: ESLint Errors resolved 
   const getGlassStyle = () => {
     const isHex = isHexColor(habit.color);
     // ESLint fix: 'let' changed to 'const'
@@ -108,9 +108,8 @@ export function HabitCard({ habit }: HabitCardProps) {
           className={cn(
             "relative overflow-hidden cursor-pointer transition-all duration-300 py-3",
 
-            // ✅ Layout Classes
-            "border", // চারদিকে ১পিক্সেল বর্ডার এনাবল করা হলো
-            "border-l-4", // বাম দিকে ৪পিক্সেল
+            
+            "border",  "border-l-4",
 
             // ✅ Glass & Background
             "bg-background/40 dark:bg-background/20",
