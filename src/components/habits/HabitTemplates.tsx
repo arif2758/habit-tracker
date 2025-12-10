@@ -1,3 +1,4 @@
+// src\components\habits\HabitTemplates.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -7,8 +8,8 @@ import type { HabitCategory } from "@/lib/types";
 interface HabitTemplate {
   name: string;
   emoji: string;
-  category: HabitCategory; 
-  description?: string; 
+  category: HabitCategory;
+  description?: string;
 }
 
 const habitTemplates: Record<string, HabitTemplate[]> = {
@@ -39,7 +40,24 @@ const habitTemplates: Record<string, HabitTemplate[]> = {
   Productivity: [
     { name: "Deep Work", emoji: "💻", category: "productivity" },
     { name: "Plan Tomorrow", emoji: "📅", category: "productivity" },
-    { name: "Clean Workspace", emoji: "🧹", category: "social" },
+    { name: "Clean Workspace", emoji: "🧹", category: "productivity" }, // ✅ Changed from "social" to "productivity"
+  ],
+  Spiritual: [
+    { name: "Prayer", emoji: "🤲", category: "spiritual" },
+    { name: "Quran Reading", emoji: "📖", category: "spiritual" },
+    { name: "Dhikr", emoji: "📿", category: "spiritual" },
+    { name: "Charity", emoji: "💝", category: "spiritual" },
+  ],
+  "Non-Negotiable": [
+    { name: "Fajr Prayer", emoji: "🌅", category: "non-negotiable" },
+    { name: "Family Time", emoji: "👨‍👩‍👧", category: "non-negotiable" },
+    { name: "No Screen Before Bed", emoji: "📵", category: "non-negotiable" },
+  ],
+  Harmful: [
+    { name: "Quit Smoking", emoji: "🚭", category: "harmful" },
+    { name: "Reduce Sugar", emoji: "🍬", category: "harmful" },
+    { name: "Less Social Media", emoji: "📱", category: "harmful" },
+    { name: "Avoid Junk Food", emoji: "🍔", category: "harmful" },
   ],
 };
 
