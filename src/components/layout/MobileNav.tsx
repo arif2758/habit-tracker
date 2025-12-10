@@ -23,7 +23,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
       {/* ✅ Compact Glassmorphism Container */}
       <div className="rounded-t-2xl bg-background/40 backdrop-blur-2xl border-t border-x border-white/10 shadow-2xl dark:bg-black/40 dark:border-white/5">
         {/* Inner glow effect */}
-        <div className="absolute inset-0 rounded-t-2xl bg-gradient-to-t from-primary/5 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 rounded-t-2xl bg-linear-to-t from-primary/5 via-transparent to-transparent pointer-events-none" />
 
         <div className="relative flex items-center justify-between px-4 py-2 pb-safe">
           {/* Navigation Items */}

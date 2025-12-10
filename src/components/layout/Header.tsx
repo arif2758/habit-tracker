@@ -44,7 +44,7 @@ export function Header({ onAddHabit }: HeaderProps) {
               />
             </div>
             <span className="text-lg font-bold tracking-tight bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              Habit Tracker
+              Habitor
             </span>
           </Link>
 
