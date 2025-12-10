@@ -48,7 +48,7 @@ export function Header({ onAddHabit }: HeaderProps) {
             </span>
           </Link>
 
-          {/* Right: Actions + Mobile Menu */}
+          {/* Right: Actions + Menu */}
           <div className="flex items-center gap-3">
             {/* Desktop Add Button */}
             <Button
@@ -68,9 +68,12 @@ export function Header({ onAddHabit }: HeaderProps) {
               <ThemeToggle />
             </div>
 
-            {/* Mobile Menu Trigger */}
-            <Sheet>
-              <SheetTrigger asChild className="lg:hidden">
+            {/* Divider */}
+            <div className="h-6 w-px bg-border/50" />
+
+            {/* ✅ Hamburger Menu */}
+            <Sheet modal={false}> {/* ✅ modal={false} - Layout shift বন্ধ করবে */}
+              <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"

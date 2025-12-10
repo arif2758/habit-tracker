@@ -1,3 +1,4 @@
+// src\lib\db\models\Habit.ts
 import { Schema, model, models, Model } from "mongoose";
 
 export interface ICompletion {
@@ -14,10 +15,11 @@ export interface IHabit {
     | "productivity"
     | "mindfulness"
     | "learning"
-    | "creativity"
-    | "social";
-  color: "blue" | "green" | "purple" | "orange" | "pink" | "yellow" | string; // Support custom hex colors
-  icon?: string; // Optional - custom habits don't have icons
+    | "spiritual"        // ✅ Added
+    | "harmful"          // ✅ Added
+    | "non-negotiable";  // ✅ Added
+  color: "blue" | "green" | "purple" | "orange" | "pink" | "yellow" | string;
+  icon?: string;
   frequency: "daily" | "weekly";
   targetDays?: number[];
   completions: ICompletion[];
@@ -53,8 +55,9 @@ const HabitSchema = new Schema<IHabit>(
         "productivity",
         "mindfulness",
         "learning",
-        "creativity",
-        "social",
+        "spiritual",        // ✅ Added
+        "harmful",          // ✅ Added
+        "non-negotiable",   // ✅ Added
       ],
       default: "health",
     },

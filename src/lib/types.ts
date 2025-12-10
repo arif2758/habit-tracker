@@ -1,3 +1,4 @@
+// src\lib\types.ts
 export interface Habit {
   _id: string; // MongoDB ID
   id?: string; // For backward compatibility
@@ -5,7 +6,7 @@ export interface Habit {
   description?: string;
   category: HabitCategory;
   color: HabitColor;
-   icon?: string;
+  icon?: string;
   frequency: "daily" | "weekly";
   targetDays?: number[]; // 0 = Sunday, 1 = Monday, etc.
   createdAt: string;
@@ -21,13 +22,15 @@ export interface HabitCompletion {
   note?: string;
 }
 
+// ✅ Updated categories
 export type HabitCategory =
   | "health"
   | "learning"
   | "productivity"
   | "mindfulness"
-  | "creativity"
-  | "social";
+  | "spiritual"      // ✅ Added
+  | "harmful"        // ✅ Added
+  | "non-negotiable"; // ✅ Added
 
 export type HabitColor =
   | "blue"

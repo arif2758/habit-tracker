@@ -1,5 +1,7 @@
+// src\lib\constants.ts
 import { HabitCategory, HabitColor } from "./types";
 
+// ✅ Updated categories - Removed "creativity" and "social", Added new ones
 export const CATEGORY_CONFIG: Record<
   HabitCategory,
   {
@@ -28,15 +30,20 @@ export const CATEGORY_CONFIG: Record<
     icon: "Brain",
     color: "pink",
   },
-  creativity: {
-    label: "Creativity",
-    icon: "Palette",
-    color: "orange",
+  spiritual: {
+    label: "Spiritual",
+    icon: "Sparkles",
+    color: "#6900E1", // violet / electric purple
   },
-  social: {
-    label: "Social",
-    icon: "Home",
-    color: "yellow",
+  harmful: {
+    label: "Harmful",
+    icon: "AlertTriangle",
+    color: "#ef4444", // red
+  },
+  "non-negotiable": {
+    label: "Non-Negotiable",
+    icon: "ShieldCheck",
+    color: "#E15B07", // orange
   },
 };
 

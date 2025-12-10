@@ -17,7 +17,7 @@ interface MobileNavProps {
 
 export function MobileNav({ onAddHabit }: MobileNavProps) {
   const pathname = usePathname();
-
+ 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
       {/* ✅ Glassmorphism Container - একদম নিচে */}

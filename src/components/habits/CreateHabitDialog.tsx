@@ -34,7 +34,7 @@ interface CreateHabitDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-type ViewMode = "templates" | "form"; 
+type ViewMode = "templates" | "form";
 
 export function CreateHabitDialog({
   open,
@@ -47,10 +47,12 @@ export function CreateHabitDialog({
 
   // Form States
   const [category, setCategory] = React.useState<HabitCategory>("health");
-  const [selectedColor, setSelectedColor] = React.useState<HabitColor>("#3b82f6"); 
+  const [selectedColor, setSelectedColor] =
+    React.useState<HabitColor>("#3b82f6");
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">("daily");
   const [description, setDescription] = React.useState("");
   const [targetDays, setTargetDays] = React.useState<number[]>([]);
+  const [habitName, setHabitName] = React.useState(""); // ✅ State for name
 
   // ---- TEMPLATE HANDLER ----
   const handleTemplateSelect = (template: {
@@ -60,8 +62,8 @@ export function CreateHabitDialog({
   }) => {
     const isDuplicate = habits.some(
       (h) =>
-        h.name.toLowerCase().trim() === template.name.toLowerCase().trim() &&
-        !h.archived
+        h.name.toLowerCase().replace(/\s+/g, " ").trim() ===
+          template.name.toLowerCase().replace(/\s+/g, " ").trim() && !h.archived
     );
 
     if (isDuplicate) {
@@ -71,7 +73,6 @@ export function CreateHabitDialog({
       return;
     }
 
-    // ✅ Template habits use fixed "blue" color as requested
     const habitData = {
       name: template.name,
       description: `Daily ${template.name} habit`,
@@ -93,29 +94,31 @@ export function CreateHabitDialog({
   // ---- CUSTOM HABIT SUBMIT ----
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
 
-    if (!name.trim()) return;
+    if (!habitName.trim()) {
+      toast.error("Name is required");
+      return;
+    }
 
     const isDuplicate = habits.some(
       (h) =>
-        h.name.toLowerCase().trim() === name.toLowerCase().trim() && !h.archived
+        h.name.toLowerCase().replace(/\s+/g, " ").trim() ===
+          habitName.toLowerCase().replace(/\s+/g, " ").trim() && !h.archived
     );
 
     if (isDuplicate) {
       toast.error("Habit already exists", {
-        description: `A habit with the name "${name}" already exists.`,
+        description: `A habit with the name "${habitName}" already exists.`,
       });
       return;
     }
 
-    // ✅ Custom habits use the selected HEX color
+    // ✅ habitName থেকে সরাসরি নেওয়া হচ্ছে, spaces preserve হবে
     const habitData = {
-      name: name,
+      name: habitName, // ✅ Multiple spaces সহ
       description: description,
       category: category,
-      color: selectedColor, 
+      color: selectedColor,
       icon: "",
       frequency: frequency,
       ...(frequency === "weekly" && { targetDays }),
@@ -128,8 +131,9 @@ export function CreateHabitDialog({
 
   const resetForm = () => {
     formRef.current?.reset();
+    setHabitName(""); // ✅ Reset name state
     setCategory("health");
-    setSelectedColor("#3b82f6"); 
+    setSelectedColor("#3b82f6");
     setFrequency("daily");
     setDescription("");
     setTargetDays([]);
@@ -144,6 +148,7 @@ export function CreateHabitDialog({
     if (!open) {
       setViewMode("templates");
       setDescription("");
+      setHabitName(""); // ✅ Reset name
     }
     onOpenChange(open);
   };
@@ -173,7 +178,7 @@ export function CreateHabitDialog({
                   Choose a template or create your own
                 </DialogDescription>
               )}
-            </div>
+            </div> 
           </div>
         </DialogHeader>
 
@@ -194,12 +199,15 @@ export function CreateHabitDialog({
                 <Input
                   id="name"
                   name="name"
-                  placeholder="e.g. Read 10 pages"
+                  placeholder="e.g. 🏃  Morning Run"
                   required
                   autoFocus
+                  value={habitName}
+                  onChange={(e) => setHabitName(e.target.value)} // ✅ Controlled input
                   className="h-12 text-base bg-muted/30"
+                  style={{ whiteSpace: "pre-wrap" }}
                 />
-              </div> 
+              </div>
 
               {/* Description */}
               <div className="grid gap-2">
@@ -230,14 +238,14 @@ export function CreateHabitDialog({
                   value={selectedColor as string}
                   onChange={(color) => setSelectedColor(color as HabitColor)}
                   presetColors={[
-                    "#3b82f6", // blue
-                    "#10b981", // green
-                    "#a855f7", // purple
-                    "#f97316", // orange
-                    "#ec4899", // pink
-                    "#eab308", // yellow
+                    "#6900E1", // violet / electric purple
+                    "#00E054", // bright green
+                    "#003DE0", // royal blue
+                    "#162329", // charcoal / deep gray
+                    "#E15B07", // orange
+                    "#1AB7E1", // sky blue / cyan-blue
                     "#ef4444", // red
-                    "#06b6d4", // cyan
+                    "#E01B51", // magenta / rose pink
                   ]}
                 />
               </div>
