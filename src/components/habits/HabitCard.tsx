@@ -50,20 +50,22 @@ export function HabitCard({ habit }: HabitCardProps) {
     archiveHabit(habit._id);
   };
 
-  // ✅ Get border color based on habit color - updated for border-l-2
-  const getBorderStyle = () => {
-    if (isHexColor(habit.color)) {
+  // ✅ Get border and background style for glassmorphism
+  const getGlassStyle = () => {
+    const habitColor = isHexColor(habit.color) ? habit.color : "hsl(var(--primary))";
+    
+    if (isCompleted) {
       return {
-        borderLeftColor: isCompleted ? habit.color : `${habit.color}60`, // ✅ 60 instead of 40 for better visibility
-        backgroundColor: isCompleted ? `${habit.color}15` : undefined,
+        borderLeftColor: habitColor,
+        background: isHexColor(habit.color)
+          ? `linear-gradient(to right, ${habit.color}15, transparent)`
+          : undefined,
       };
     }
-    if (!isCompleted && COLOR_CONFIG[habit.color]) {
-      return {
-        borderLeftColor: `${habit.color}60`, // ✅ Slightly more visible
-      };
-    }
-    return {};
+    
+    return {
+      borderLeftColor: `${habitColor}60`,
+    };
   };
 
   const borderColorClass =
@@ -98,97 +100,124 @@ export function HabitCard({ habit }: HabitCardProps) {
 
   return (
     <>
-      <Card
-        className={cn(
-          "group cursor-pointer hover:shadow-md transition-all duration-200 py-3",
-          "border-l-2", // ✅ Always apply border-l-2
-          isCompleted ? borderColorClass : "border-primary/40",
-          isCompleted && !isHexColor(habit.color) && "bg-primary/10"
-        )}
-        style={{
-          ...getBorderStyle(),
-          borderLeftWidth: isCompleted ? "4px" : "3px", // ✅ 4px when completed, 2px when not
-        }}
-        onClick={() => setIsDetailOpen(true)}
-      >
-        <CardHeader className="flex flex-row items-center justify-between py-1 px-3">
-          <div className="flex items-center gap-3 flex-1">
-            {/* Actions Menu */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 transition-opacity"
-                >
-                  <MoreVertical className="h-4 w-4" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <DropdownMenuItem onClick={() => setIsDetailOpen(true)}>
-                  <Eye className="mr-2 h-4 w-4" />
-                  View Details
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsEditOpen(true)}>
-                  <Edit className="mr-2 h-4 w-4" />
-                  Edit Habit
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleArchive}>
-                  <Archive className="mr-2 h-4 w-4" />
-                  Archive
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => setIsDeleteDialogOpen(true)}
-                  className="text-destructive"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Habit Info */}
-            <div className="flex-1 space-y-">
-              <div className="flex items-center gap-2">
-                {habit.icon && (
-                  <span className="text-xl flex items-center justify-center rounded-full bg-primary/1 text-primary">
-                    {IconMap[habit.icon] ? (
-                      React.createElement(IconMap[habit.icon], {
-                        className: "h-5 w-5",
-                      })
-                    ) : (
-                      <span className="text-lg leading-none">{habit.icon}</span>
-                    )}
-                  </span>
-                )}
-                <h3 className=" font-semibold leading-none tracking-tight">
-                  {habit.name}
-                </h3>
-              </div>
-              {habit.description && (
-                <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
-                  {habit.description}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Enhanced Checkbox with better visibility */}
-          <div onClick={(e) => e.stopPropagation()}>
-            <Checkbox
-              checked={isCompleted}
-              onCheckedChange={handleToggle}
-              className={checkboxClassName}
-              style={getCheckboxStyle()}
+      {/* ✅ Glassmorphism Card */}
+      <div className="relative group">
+        {/* Glass effect container */}
+        <Card
+          className={cn(
+            "relative overflow-hidden cursor-pointer transition-all duration-300 py-3",
+            "border-l-4",
+            "bg-background/40 dark:bg-background/20",
+            "backdrop-blur-xl",
+            "border border-white/10 dark:border-white/5",
+            "hover:shadow-lg hover:scale-[1.02]",
+            "active:scale-[0.98]",
+            isCompleted ? borderColorClass : "border-primary/40"
+          )}
+          style={getGlassStyle()}
+          onClick={() => setIsDetailOpen(true)}
+        >
+          {/* ✅ Inner glow effect */}
+          {isCompleted && (
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: isHexColor(habit.color)
+                  ? `radial-gradient(circle at top left, ${habit.color}10, transparent 70%)`
+                  : undefined
+              }}
             />
-          </div>
-        </CardHeader>
-      </Card>
+          )}
+
+          <CardHeader className="relative flex flex-row items-center justify-between py-1 px-3">
+            <div className="flex items-center gap-3 flex-1">
+              {/* Actions Menu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 hover:bg-white/10 dark:hover:bg-white/5 transition-colors"
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  onClick={(e) => e.stopPropagation()}
+                  className="bg-background/95 backdrop-blur-xl border-white/10 dark:border-white/5"
+                >
+                  <DropdownMenuItem 
+                    onClick={() => setIsDetailOpen(true)}
+                    className="hover:bg-white/10 dark:hover:bg-white/5"
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    View Details
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={() => setIsEditOpen(true)}
+                    className="hover:bg-white/10 dark:hover:bg-white/5"
+                  >
+                    <Edit className="mr-2 h-4 w-4" />
+                    Edit Habit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    onClick={handleArchive}
+                    className="hover:bg-white/10 dark:hover:bg-white/5"
+                  >
+                    <Archive className="mr-2 h-4 w-4" />
+                    Archive
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-white/10 dark:bg-white/5" />
+                  <DropdownMenuItem
+                    onClick={() => setIsDeleteDialogOpen(true)}
+                    className="text-destructive hover:bg-destructive/10"
+                  >
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Habit Info */}
+              <div className="flex-1 space-y-">
+                <div className="flex items-center gap-2">
+                  {habit.icon && (
+                    <div className="flex items-center justify-center p-1.5 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm">
+                      {IconMap[habit.icon] ? (
+                        React.createElement(IconMap[habit.icon], {
+                          className: "h-4 w-4 text-primary",
+                        })
+                      ) : (
+                        <span className="text-base leading-none">{habit.icon}</span>
+                      )}
+                    </div>
+                  )}
+                  <h3 className="font-semibold leading-none tracking-tight">
+                    {habit.name}
+                  </h3>
+                </div>
+                {habit.description && (
+                  <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
+                    {habit.description}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Enhanced Checkbox with better visibility */}
+            <div onClick={(e) => e.stopPropagation()}>
+              <Checkbox
+                checked={isCompleted}
+                onCheckedChange={handleToggle}
+                className={checkboxClassName}
+                style={getCheckboxStyle()}
+              />
+            </div>
+          </CardHeader>
+        </Card>
+      </div>
 
       {/* Detail Modal */}
       <HabitDetailModal
