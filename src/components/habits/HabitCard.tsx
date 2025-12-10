@@ -42,7 +42,7 @@ export function HabitCard({ habit }: HabitCardProps) {
   };
 
   const handleDelete = () => {
-    deleteHabit(habit._id);
+    deleteHabit(habit._id); 
   };
 
   const handleArchive = () => {
