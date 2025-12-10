@@ -67,7 +67,7 @@ export function MobileNav({ onAddHabit }: MobileNavProps) {
           })}
 
           {/* FAB Button - Compact */}
-          <div className="absolute left-1/2 -translate-x-1/2 -top-2">
+          <div className="absolute left-1/2 -translate-x-1/2 -top-4">
             <button
               onClick={onAddHabit}
               className={cn(
