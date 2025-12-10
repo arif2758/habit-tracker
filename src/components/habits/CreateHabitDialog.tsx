@@ -1,7 +1,8 @@
+// src\components\habits\CreateHabitDialog.tsx
 "use client";
 
 import React, { useRef, useState } from "react";
-import { ArrowLeft } from "lucide-react"; // Default icon import
+import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import {
   Dialog,
@@ -33,7 +34,7 @@ interface CreateHabitDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-type ViewMode = "templates" | "form";
+type ViewMode = "templates" | "form"; 
 
 export function CreateHabitDialog({
   open,
@@ -46,9 +47,7 @@ export function CreateHabitDialog({
 
   // Form States
   const [category, setCategory] = React.useState<HabitCategory>("health");
-  const [selectedColor, setSelectedColor] =
-    React.useState<HabitColor>("#3b82f6"); // Default blue hex
-  // Icon state removed from manual selection, default provided directly
+  const [selectedColor, setSelectedColor] = React.useState<HabitColor>("#3b82f6"); 
   const [frequency, setFrequency] = React.useState<"daily" | "weekly">("daily");
   const [description, setDescription] = React.useState("");
   const [targetDays, setTargetDays] = React.useState<number[]>([]);
@@ -72,7 +71,7 @@ export function CreateHabitDialog({
       return;
     }
 
-    // Template uses Emoji as Icon
+    // ✅ Template habits use fixed "blue" color as requested
     const habitData = {
       name: template.name,
       description: `Daily ${template.name} habit`,
@@ -111,12 +110,12 @@ export function CreateHabitDialog({
       return;
     }
 
+    // ✅ Custom habits use the selected HEX color
     const habitData = {
       name: name,
       description: description,
       category: category,
-      color: selectedColor,
-      // Custom Habit এর জন্য কোন আইকন নেই
+      color: selectedColor, 
       icon: "",
       frequency: frequency,
       ...(frequency === "weekly" && { targetDays }),
@@ -130,7 +129,7 @@ export function CreateHabitDialog({
   const resetForm = () => {
     formRef.current?.reset();
     setCategory("health");
-    setSelectedColor("#3b82f6"); // Default blue hex
+    setSelectedColor("#3b82f6"); 
     setFrequency("daily");
     setDescription("");
     setTargetDays([]);
@@ -242,8 +241,6 @@ export function CreateHabitDialog({
                   ]}
                 />
               </div>
-
-              {/* NOTE: Icon Picker Removed as requested */}
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Category */}

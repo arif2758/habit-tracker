@@ -56,7 +56,7 @@
 
 .dark {
   /* OKLCH Color Palette - Dark Mode */
-  --background: oklch(0.12 0.02 260); /* Deep Dark Blue/Gray */
+  --background:oklch(0.0699 0 0); /* Deep Dark Blue/Gray */
   --foreground: oklch(0.985 0.005 260);
 
   --card: oklch(0.16 0.02 260);

@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useHabits } from "@/contexts/HabitContext";
-import { COLOR_CONFIG } from "@/lib/constants";
 import { IconMap } from "@/components/icons";
 import { getToday, isHexColor } from "@/lib/utils";
 import type { Habit } from "@/lib/types";
@@ -50,30 +49,33 @@ export function HabitCard({ habit }: HabitCardProps) {
     archiveHabit(habit._id);
   };
 
-  // ✅ Get border and background style for glassmorphism
+  // ✅ FIX: ESLint Errors resolved
   const getGlassStyle = () => {
-    const habitColor = isHexColor(habit.color) ? habit.color : "hsl(var(--primary))";
-    
-    if (isCompleted) {
-      return {
-        borderLeftColor: habitColor,
-        background: isHexColor(habit.color)
-          ? `linear-gradient(to right, ${habit.color}15, transparent)`
-          : undefined,
-      };
-    }
-    
-    return {
-      borderLeftColor: `${habitColor}60`,
+    const isHex = isHexColor(habit.color);
+    // ESLint fix: 'let' changed to 'const'
+    const habitColor = isHex ? habit.color : "hsl(var(--primary))";
+
+    // 1. Color Logic: Completed হলে ফুল কালার, না হলে ৬০% অপাসিটি
+    const borderColor = isCompleted 
+      ? habitColor 
+      : (isHex ? `${habitColor}60` : `${habitColor}60`);
+
+    // Style object
+    const style: React.CSSProperties = {
+      borderColor: borderColor, // চারপাশের বর্ডার কালার সেট করা হলো
+      borderLeftWidth: "4px",   // বাম পাশের বর্ডার ফিক্সড মোটা রাখা হলো
     };
+
+    // Background Gradient Logic (Only for completed)
+    if (isCompleted && isHex) {
+      style.background = `linear-gradient(to right, ${habitColor}15, transparent)`;
+    }
+
+    return style;
   };
 
-  const borderColorClass =
-    !isHexColor(habit.color) && COLOR_CONFIG[habit.color]
-      ? COLOR_CONFIG[habit.color].border
-      : "";
+  // ESLint fix: Removed unused 'borderColorClass' variable
 
-  // Enhanced Checkbox style
   const getCheckboxStyle = () => {
     if (isCompleted && isHexColor(habit.color)) {
       return {
@@ -85,9 +87,8 @@ export function HabitCard({ habit }: HabitCardProps) {
     return {};
   };
 
-  // Checkbox dynamic class
   const checkboxClassName = cn(
-    "h-7 w-7 rounded-full transition-all",
+    "h-7 w-7 rounded-full transition-all shrink-0",
     "border-[2.5px]",
     isCompleted
       ? "data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:shadow-md"
@@ -100,40 +101,50 @@ export function HabitCard({ habit }: HabitCardProps) {
 
   return (
     <>
-      {/* ✅ Glassmorphism Card */}
       <div className="relative group">
-        {/* Glass effect container */}
         <Card
           className={cn(
             "relative overflow-hidden cursor-pointer transition-all duration-300 py-3",
-            "border-l-4",
+            
+            // ✅ Layout Classes
+            "border",        // চারদিকে ১পিক্সেল বর্ডার এনাবল করা হলো
+            "border-l-4",    // বাম দিকে ৪পিক্সেল
+            
+            // ✅ Glass & Background
             "bg-background/40 dark:bg-background/20",
             "backdrop-blur-xl",
-            "border border-white/10 dark:border-white/5",
+            
+            // ✅ Hover Effects
             "hover:shadow-lg hover:scale-[1.02]",
             "active:scale-[0.98]",
-            isCompleted ? borderColorClass : "border-primary/40"
+            
+            // ডিফল্ট বর্ডার কালার (যদি হেক্স না হয়)
+            // ইনলাইন স্টাইল দিয়ে ওভাররাইড হবে, তবে ফলব্যাকের জন্য রাখা যেতে পারে
+            !isHexColor(habit.color) ? "border-primary/40" : ""
           )}
           style={getGlassStyle()}
           onClick={() => setIsDetailOpen(true)}
         >
-          {/* ✅ Inner glow effect */}
           {isCompleted && (
-            <div 
+            <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 background: isHexColor(habit.color)
                   ? `radial-gradient(circle at top left, ${habit.color}10, transparent 70%)`
-                  : undefined
+                  : undefined,
               }}
             />
           )}
 
-          <CardHeader className="relative flex flex-row items-center justify-between py-1 px-3">
-            <div className="flex items-center gap-3 flex-1">
+          {/* ✅ Original Height - Perfect Alignment */}
+          <CardHeader className="relative flex flex-row items-center justify-between py-1 px-3 gap-3">
+            <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* Actions Menu */}
               <DropdownMenu>
-                <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                <DropdownMenuTrigger
+                  asChild
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <Button
                     variant="ghost"
                     size="icon"
@@ -148,21 +159,21 @@ export function HabitCard({ habit }: HabitCardProps) {
                   onClick={(e) => e.stopPropagation()}
                   className="bg-background/95 backdrop-blur-xl border-white/10 dark:border-white/5"
                 >
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     onClick={() => setIsDetailOpen(true)}
                     className="hover:bg-white/10 dark:hover:bg-white/5"
                   >
                     <Eye className="mr-2 h-4 w-4" />
                     View Details
                   </DropdownMenuItem>
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     onClick={() => setIsEditOpen(true)}
                     className="hover:bg-white/10 dark:hover:bg-white/5"
                   >
                     <Edit className="mr-2 h-4 w-4" />
                     Edit Habit
                   </DropdownMenuItem>
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     onClick={handleArchive}
                     className="hover:bg-white/10 dark:hover:bg-white/5"
                   >
@@ -181,16 +192,18 @@ export function HabitCard({ habit }: HabitCardProps) {
               </DropdownMenu>
 
               {/* Habit Info */}
-              <div className="flex-1 space-y-">
+              <div className="flex-1 min-w-0 space-y-0">
                 <div className="flex items-center gap-2">
                   {habit.icon && (
-                    <div className="flex items-center justify-center p-1.5 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm">
+                    <div className="flex items-center justify-center p-1.5 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
                       {IconMap[habit.icon] ? (
                         React.createElement(IconMap[habit.icon], {
                           className: "h-4 w-4 text-primary",
                         })
                       ) : (
-                        <span className="text-base leading-none">{habit.icon}</span>
+                        <span className="text-base leading-none">
+                          {habit.icon}
+                        </span>
                       )}
                     </div>
                   )}
@@ -206,7 +219,7 @@ export function HabitCard({ habit }: HabitCardProps) {
               </div>
             </div>
 
-            {/* Enhanced Checkbox with better visibility */}
+            {/* Checkbox */}
             <div onClick={(e) => e.stopPropagation()}>
               <Checkbox
                 checked={isCompleted}

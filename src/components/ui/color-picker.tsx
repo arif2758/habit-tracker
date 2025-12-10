@@ -6,7 +6,7 @@ import { Copy, Check } from "lucide-react";
 
 interface ColorPickerProps {
   value: string;
-  onChange: (color: string) => void;
+  onChange: (color: string) => void; 
   presetColors?: string[];
 }
 

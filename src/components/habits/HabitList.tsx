@@ -2,7 +2,6 @@
 "use client";
 
 import React from "react";
-
 import type { Habit } from "@/lib/types";
 import { PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,6 @@ import { HabitCard } from "./HabitCard";
 
 interface HabitListProps {
   habits: Habit[];
-  // পরিবর্তন ১: string এর বদলে React.ReactNode দেওয়া হলো যাতে টেক্সট বা JSX দুটোই সাপোর্ট করে
   emptyMessage?: string | React.ReactNode;
   onAddHabit?: () => void;
 }
@@ -21,31 +19,28 @@ export function HabitList({
   emptyMessage = "No habits found.",
   onAddHabit,
 }: HabitListProps) {
-  // Sort habits: unchecked first, then checked (most recently checked at bottom)
-  const today = getToday();
+  const today = getToday(); 
 
+  // Sort habits logic updated
   const sortedHabits = [...habits].sort((a, b) => {
-    const aCompletion = a.completions.find(
-      (c: { date: string; completed: boolean }) => c.date === today
-    );
-    const bCompletion = b.completions.find(
-      (c: { date: string; completed: boolean }) => c.date === today
-    );
+    const aCompletion = a.completions.find((c) => c.date === today);
+    const bCompletion = b.completions.find((c) => c.date === today);
 
     const aCompleted = aCompletion?.completed || false;
     const bCompleted = bCompletion?.completed || false;
 
-    // First, unchecked comes before checked
+    // 1. Primary Sort: Unchecked first, then Checked
     if (aCompleted !== bCompleted) {
       return aCompleted ? 1 : -1;
     }
 
-    // Both unchecked or both checked - sort by updatedAt (most recent at bottom)
-    if (aCompleted && bCompleted) {
-      return new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
-    }
-
-    return 0;
+    // 2. Secondary Sort: If both have same status (both checked OR both unchecked)
+    // Sort by Creation Date (Oldest to Newest) -> New habits go to bottom
+    // আগে এখানে updatedAt ছিল, এখন createdAt ব্যবহার করা হচ্ছে
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    
+    return dateA - dateB;
   });
 
   if (habits.length === 0) {
@@ -56,7 +51,6 @@ export function HabitList({
         </div>
         <h3 className="text-lg font-semibold mb-2">No habits yet</h3>
 
-        {/* পরিবর্তন ২: <p> এর বদলে <div> ব্যবহার করা হয়েছে যাতে আপনি কাস্টম JSX পাস করলে হাইড্রেডশন এরর না হয় */}
         <div className="text-muted-foreground max-w-sm mb-6">
           {emptyMessage}
         </div>

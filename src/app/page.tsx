@@ -50,7 +50,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-3 max-w-2xl mx-auto pb-24">
       {/* Week Calendar - Compact */}
-      <div className="px-2">
+      <div className="px-2 mt-2">
         <WeekCalendar
           selectedDate={selectedDate}
           onDateSelect={setSelectedDate}
