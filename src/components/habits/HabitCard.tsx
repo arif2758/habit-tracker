@@ -86,7 +86,7 @@ export function HabitCard({ habit }: HabitCardProps) {
         boxShadow: `0 0 0 1px ${habit.color}`,
       };
     }
-    return {};
+    return {}; 
   };
 
   const checkboxClassName = cn(

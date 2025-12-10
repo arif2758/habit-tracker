@@ -94,7 +94,7 @@ export function HabitTemplates({
           <span className="font-medium">Create Custom Habit</span>
         </div>
         <Plus className="h-5 w-5 text-primary group-hover:scale-110 transition-transform" />
-      </button>
+      </button> 
 
       {/* Template Categories */}
       {Object.entries(habitTemplates).map(([category, templates]) => {
