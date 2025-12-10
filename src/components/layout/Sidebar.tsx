@@ -41,9 +41,11 @@ export function Sidebar() {
         <div className="space-y-6">
           {navigation.map((section) => (
             <div key={section.title}>
-              <h4 className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-                {section.title}
-              </h4>
+              {section.title && (
+                <h4 className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
+                  {section.title}
+                </h4>
+              )}
               <nav className="space-y-1">
                 {section.items.map((item) => {
                   const isActive = pathname === item.href;
@@ -53,10 +55,10 @@ export function Sidebar() {
                     <Link key={item.href} href={item.href}>
                       <div
                         className={cn(
-                          "group flex items-center gap-3 rounded-lg my-1  px-3 py-2.5 text-sm font-medium transition-all duration-200 ease-in-out hover:bg-muted",
+                          "group flex items-center gap-3 rounded-lg my-1 px-3 py-2.5 text-sm font-medium transition-all duration-200 ease-in-out",
                           isActive
-                            ? "bg-primary/10 text-primary shadow-sm ring-1 ring-primary/20"
-                            : "text-muted-foreground hover:text-foreground"
+                            ? "bg-primary/10 text-primary shadow-sm"
+                            : "text-foreground/80 hover:text-foreground hover:bg-accent/50"
                         )}
                       >
                         <Icon
@@ -64,12 +66,12 @@ export function Sidebar() {
                             "h-4 w-4 transition-colors",
                             isActive
                               ? "text-primary"
-                              : "text-muted-foreground group-hover:text-foreground"
+                              : "text-foreground/70 group-hover:text-foreground"
                           )}
                         />
                         {item.name}
                         {isActive && (
-                          <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.5)]" />
+                          <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
                         )}
                       </div>
                     </Link>
@@ -83,8 +85,9 @@ export function Sidebar() {
 
       {/* Footer / Pro Tip */}
       <div className="p-4">
-        <div className="relative overflow-hidden rounded-xl border bg-linear-to-br from-primary/5 via-primary/10 to-transparent p-4">
-          <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-primary/10 blur-2xl" />
+        <div className="relative overflow-hidden rounded-xl border bg-white dark:bg-linear-to-br dark:from-primary/5 dark:via-primary/10 dark:to-transparent p-4">
+          {/* ✅ Glow শুধু ডার্ক মোডে */}
+          <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-primary/10 blur-2xl opacity-0 dark:opacity-100" />
           <div className="relative z-10">
             <div className="mb-2 flex items-center gap-2 text-primary">
               <Sparkles className="h-4 w-4" />

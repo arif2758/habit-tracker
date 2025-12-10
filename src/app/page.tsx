@@ -1,3 +1,4 @@
+// src\app\page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -48,39 +49,50 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-3 max-w-2xl mx-auto pb-24">
-      {/* Week Calendar - Compact */}
-      <div className="px-2 mt-2">
-        <WeekCalendar
-          selectedDate={selectedDate}
-          onDateSelect={setSelectedDate}
-        />
+    <>
+      {/* ✅ Fixed Week Calendar & Progress - Full width container */}
+      <div className="fixed top-16 left-0 right-0 z-40 bg-white/70 dark:bg-black/50 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-sm lg:left-72">
+        {/* Inner glow */}
+        <div className="absolute inset-0 bg-linear-to-b from-primary/10 via-primary/5 to-transparent dark:from-primary/5 dark:via-transparent pointer-events-none" />
+
+        <div className="container mx-auto max-w-2xl px-4 py-3">
+          <div className="relative space-y-3">
+            {/* Week Calendar */}
+            <WeekCalendar
+              selectedDate={selectedDate}
+              onDateSelect={setSelectedDate}
+            />
+
+            {/* Progress Section */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-bold text-foreground">Progress</h2>
+                <span className="text-sm font-bold text-primary">
+                  {completedCount}/{totalCount}
+                </span>
+              </div>
+              {/* Progress Bar */}
+              <div className="h-1.5 bg-white/50 dark:bg-zinc-700/50 rounded-full overflow-hidden backdrop-blur-sm border border-white/20 dark:border-white/5">
+                <div
+                  className="h-full bg-linear-to-r from-primary to-primary/80 transition-all duration-500 shadow-sm"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* ✅ Progress Section - Simple but Clear */}
-      <div className="space-y-2 px-2">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-foreground">Progress</h2>
-          <span className="text-sm font-bold text-primary">
-            {completedCount}/{totalCount}
-          </span>
-        </div>
-        {/* ✅ Enhanced Progress Bar - Simple & Clear */}
-        <div className="h-1 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden ">
-          <div
-            className="h-full bg-primary transition-all duration-500"
-            style={{ width: `${progressPercentage}%` }}
-          />
-        </div>
-      </div>
+      {/* ✅ Spacer to push content down */}
+      <div className="h-[140px]" />
 
-      {/* Habits List - Compact */}
-      <div className="px-2 pt-1">
+      {/* Habits List - Scrollable */}
+      <div className="max-w-2xl mx-auto px-4 pb-24">
         <HabitList
           habits={dailyHabits}
           emptyMessage="No daily habits yet. Create your first habit to get started!"
         />
       </div>
-    </div>
+    </>
   );
 }

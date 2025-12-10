@@ -199,7 +199,7 @@ export function CreateHabitDialog({
                   autoFocus
                   className="h-12 text-base bg-muted/30"
                 />
-              </div>
+              </div> 
 
               {/* Description */}
               <div className="grid gap-2">
