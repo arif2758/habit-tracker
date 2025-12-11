@@ -102,7 +102,7 @@ export function HabitCard({ habit }: HabitCardProps) {
           className={cn(
             "relative overflow-hidden cursor-pointer transition-all duration-300",
             // ✅ FIX: হাইট ফিক্সড এবং আইটেম সেন্টার করা হলো, প্যাডিং সরানো হলো
-            "h-[88px]",
+            "h-[74px]",
 
             "border",
             "border-l-4",
