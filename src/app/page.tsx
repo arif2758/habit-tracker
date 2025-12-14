@@ -6,12 +6,10 @@ import React, { useState } from "react";
 import { useHabits } from "@/contexts/HabitContext";
 import { HabitList } from "@/components/habits/HabitList";
 import { WeekCalendar } from "@/components/calendar/WeekCalendar";
-import { useScrollDirection } from "@/hooks/useScrollDirection";
 
 export default function DashboardPage() {
   const { loading, habits } = useHabits();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const scrollDirection = useScrollDirection();
 
   // Format date properly as YYYY-MM-DD
   const year = selectedDate.getFullYear();
@@ -52,14 +50,8 @@ export default function DashboardPage() {
 
   return (
     <>
-      {/* ✅ Fixed Week Calendar & Progress - Centered, full width */}
-      <div
-        className={`fixed top-12 left-0 right-0 z-40 bg-white/70 dark:bg-black/50 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-sm transition-transform duration-300 ${
-          scrollDirection === "down"
-            ? "-translate-y-[calc(100%+3rem)]"
-            : "translate-y-0"
-        }`}
-      >
+      {/* ✅ Sticky Week Calendar & Progress - Centered, full width */}
+      <div className="sticky top-12 left-0 right-0 z-40 bg-white/70 dark:bg-black/50 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-sm transition-all duration-300">
         {/* Inner glow */}
         <div className="absolute inset-0 bg-linear-to-b from-primary/10 via-primary/5 to-transparent dark:from-primary/5 dark:via-transparent pointer-events-none" />
 
@@ -91,11 +83,8 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* ✅ Spacer to push content down */}
-      <div className="h-[120px]" />
-
       {/* Habits List - Scrollable - Centered */}
-      <div className="max-w-2xl mx-auto px-4 pb-24 sm:mt-4">
+      <div className="max-w-2xl mx-auto px-4 pb-24 mt-4">
         <HabitList
           habits={dailyHabits}
           emptyMessage="No daily habits yet. Create your first habit to get started!"
