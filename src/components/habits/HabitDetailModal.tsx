@@ -48,7 +48,7 @@ export function HabitDetailModal({
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const stats = useStatistics(habit || ({} as Habit));
 
-  if (!habit) return null;
+  if (!habit) return null; 
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
