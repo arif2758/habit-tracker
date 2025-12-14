@@ -10,7 +10,7 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   Sheet,
   SheetContent,
-  SheetTrigger, 
+  SheetTrigger,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -28,7 +28,7 @@ export function Header({ onAddHabit }: HeaderProps) {
         {/* Inner glow effect */}
         <div className="absolute inset-0 bg-linear-to-b from-primary/10 via-primary/5 to-transparent dark:from-primary/5 dark:via-transparent pointer-events-none" />
 
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 relative">
+        <div className="container mx-auto flex h-12 items-center justify-between px-4 relative">
           {/* Left: Logo */}
           <Link
             href="/"
@@ -72,7 +72,9 @@ export function Header({ onAddHabit }: HeaderProps) {
             <div className="h-6 w-px bg-border/50" />
 
             {/* ✅ Hamburger Menu */}
-            <Sheet modal={false}> {/* ✅ modal={false} - Layout shift বন্ধ করবে */}
+            <Sheet modal={false}>
+              {" "}
+              {/* ✅ modal={false} - Layout shift বন্ধ করবে */}
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"

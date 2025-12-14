@@ -130,7 +130,7 @@ export function HabitCard({ habit }: HabitCardProps) {
           )}
 
           {/* ✅ FIX: CardHeader পুরো হাইট নিবে এবং ভেতরের সব কিছু সেন্টার করবে */}
-          <CardHeader className="flex flex-row items-center justify-between h-full w-full p-4 space-y-0">
+          <CardHeader className="flex flex-row items-center justify-between h-full w-full px-4 py-3 space-y-0">
             <div className="flex items-center gap-3 flex-1 min-w-0">
               {/* Actions Menu */}
               <DropdownMenu>
@@ -188,13 +188,13 @@ export function HabitCard({ habit }: HabitCardProps) {
               <div className="flex-1 min-w-0 flex flex-col justify-center">
                 <div className="flex items-center gap-2">
                   {habit.icon && (
-                    <div className="flex items-center justify-center h-6 w-6 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
+                    <div className="flex items-center justify-center h-5 w-5 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
                       {IconMap[habit.icon] ? (
                         React.createElement(IconMap[habit.icon], {
-                          className: "h-4 w-4 text-primary",
+                          className: "h-3.5 w-3.5 text-primary",
                         })
                       ) : (
-                        <span className="text-sm leading-none">
+                        <span className="text-xs leading-none">
                           {habit.icon}
                         </span>
                       )}
@@ -205,7 +205,7 @@ export function HabitCard({ habit }: HabitCardProps) {
                   </h3>
                 </div>
                 {habit.description && (
-                  <p className="text-sm text-muted-foreground line-clamp-1 mt-1 leading-tight">
+                  <p className="text-sm text-muted-foreground line-clamp-1 mt-1.5 leading-tight">
                     {habit.description}
                   </p>
                 )}
@@ -215,7 +215,7 @@ export function HabitCard({ habit }: HabitCardProps) {
             {/* Checkbox */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center shrink-0 pl-2"
+              className="flex items-center shrink-0"
             >
               <Checkbox
                 checked={isCompleted}

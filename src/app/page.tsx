@@ -51,7 +51,7 @@ export default function DashboardPage() {
   return (
     <>
       {/* ✅ Fixed Week Calendar & Progress - Centered, full width */}
-      <div className="fixed top-16 left-0 right-0 z-40 bg-white/70 dark:bg-black/50 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-sm">
+      <div className="fixed top-12 left-0 right-0 z-40 bg-white/70 dark:bg-black/50 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-sm">
         {/* Inner glow */}
         <div className="absolute inset-0 bg-linear-to-b from-primary/10 via-primary/5 to-transparent dark:from-primary/5 dark:via-transparent pointer-events-none" />
 
