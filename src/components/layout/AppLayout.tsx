@@ -29,7 +29,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       <Header onAddHabit={handleAddHabit} />
 
       {/* Spacer for fixed header */}
-      <div className="h-16" />
+      <div className="h-12" />
 
       {/* Main Content - Centered, no sidebar offset */}
       <main className="relative z-10">

@@ -56,7 +56,7 @@ export default function DashboardPage() {
         <div className="absolute inset-0 bg-linear-to-b from-primary/10 via-primary/5 to-transparent dark:from-primary/5 dark:via-transparent pointer-events-none" />
 
         <div className="container mx-auto max-w-2xl px-4 py-3">
-          <div className="relative space-y-3 sm:mt-1">
+          <div className="relative space-y-3">
             {/* Week Calendar */}
             <WeekCalendar
               selectedDate={selectedDate}
@@ -84,7 +84,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Habits List - Scrollable - Centered */}
-      <div className="max-w-2xl mx-auto px-4 pb-24 mt-4">
+      <div className="max-w-2xl mx-auto px-4 pb-24 mt-2.5">
         <HabitList
           habits={dailyHabits}
           emptyMessage="No daily habits yet. Create your first habit to get started!"
