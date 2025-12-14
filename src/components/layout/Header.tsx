@@ -16,13 +16,21 @@ import {
 } from "@/components/ui/sheet";
 import { Sidebar } from "./Sidebar";
 
+import { useScrollDirection } from "@/hooks/useScrollDirection";
+
 interface HeaderProps {
   onAddHabit?: () => void;
 }
 
 export function Header({ onAddHabit }: HeaderProps) {
+  const scrollDirection = useScrollDirection();
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-transform duration-300 ${
+        scrollDirection === "down" ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       {/* ✅ Enhanced Glassmorphism Container */}
       <div className="relative bg-white/70 dark:bg-black/50 backdrop-blur-xl border-b border-white/20 dark:border-white/5 shadow-sm">
         {/* Inner glow effect */}
