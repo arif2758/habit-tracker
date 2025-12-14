@@ -10,16 +10,18 @@ import { HabitCard } from "./HabitCard";
 
 interface HabitListProps {
   habits: Habit[];
+  selectedDate?: string; // YYYY-MM-DD format
   emptyMessage?: string | React.ReactNode;
   onAddHabit?: () => void;
 }
 
 export function HabitList({
   habits,
+  selectedDate,
   emptyMessage = "No habits found.",
   onAddHabit,
 }: HabitListProps) {
-  const today = getToday();
+  const today = selectedDate || getToday();
 
   // Sort habits logic updated
   const sortedHabits = [...habits].sort((a, b) => {
@@ -68,7 +70,7 @@ export function HabitList({
   return (
     <div className="grid gap-2 md:grid-cols-2 animate-slide-up">
       {sortedHabits.map((habit) => (
-        <HabitCard key={habit._id} habit={habit} />
+        <HabitCard key={habit._id} habit={habit} selectedDate={today} />
       ))}
     </div>
   );

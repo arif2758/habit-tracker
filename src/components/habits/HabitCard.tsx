@@ -26,15 +26,16 @@ import { cn } from "@/lib/utils";
 
 interface HabitCardProps {
   habit: Habit;
+  selectedDate?: string; // YYYY-MM-DD format
 }
 
-export function HabitCard({ habit }: HabitCardProps) {
+export function HabitCard({ habit, selectedDate }: HabitCardProps) {
   const { toggleCompletion, deleteHabit, archiveHabit } = useHabits();
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-  const today = getToday();
+  const today = selectedDate || getToday();
   const todayCompletion = habit.completions.find((c) => c.date === today);
   const isCompleted = todayCompletion?.completed || false;
 

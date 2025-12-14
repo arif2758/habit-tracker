@@ -87,6 +87,7 @@ export default function DashboardPage() {
       <div className="max-w-2xl mx-auto px-4 pb-24 mt-2.5">
         <HabitList
           habits={dailyHabits}
+          selectedDate={selectedDateString}
           emptyMessage="No daily habits yet. Create your first habit to get started!"
         />
       </div>
