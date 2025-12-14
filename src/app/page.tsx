@@ -84,7 +84,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ✅ Spacer to push content down */}
-      <div className="h-[140px]" />
+      <div className="h-[120px]" />
 
       {/* Habits List - Scrollable - Centered */}
       <div className="max-w-2xl mx-auto px-4 pb-24 sm:mt-4">

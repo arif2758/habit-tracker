@@ -84,8 +84,8 @@ export function HabitCard({ habit }: HabitCardProps) {
   };
 
   const checkboxClassName = cn(
-    "h-7 w-7 rounded-full transition-all shrink-0",
-    "border-[2.5px]",
+    "h-6 w-6 rounded-full transition-all shrink-0",
+    "border-2",
     isCompleted
       ? "data-[state=checked]:bg-primary data-[state=checked]:border-primary data-[state=checked]:shadow-md"
       : cn(
@@ -102,7 +102,7 @@ export function HabitCard({ habit }: HabitCardProps) {
           className={cn(
             "relative overflow-hidden cursor-pointer transition-all duration-300",
             // ✅ FIX: হাইট ফিক্সড এবং আইটেম সেন্টার করা হলো, প্যাডিং সরানো হলো
-            "h-[74px]",
+            "h-[64px]",
 
             "border",
             "border-l-4",
@@ -130,8 +130,8 @@ export function HabitCard({ habit }: HabitCardProps) {
           )}
 
           {/* ✅ FIX: CardHeader পুরো হাইট নিবে এবং ভেতরের সব কিছু সেন্টার করবে */}
-          <CardHeader className="flex flex-row items-center justify-between h-full w-full px-4 py-3 space-y-0">
-            <div className="flex items-center gap-3 flex-1 min-w-0">
+          <CardHeader className="flex flex-row items-center justify-between h-full w-full px-3 py-2 space-y-0">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
               {/* Actions Menu */}
               <DropdownMenu>
                 <DropdownMenuTrigger
@@ -141,9 +141,9 @@ export function HabitCard({ habit }: HabitCardProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-9 w-9 shrink-0 hover:bg-white/10 dark:hover:bg-white/5 transition-colors"
+                    className="h-8 w-8 shrink-0 hover:bg-white/10 dark:hover:bg-white/5 transition-colors"
                   >
-                    <MoreVertical className="h-4 w-4" />
+                    <MoreVertical className="h-3.5 w-3.5" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </DropdownMenuTrigger>
@@ -186,26 +186,26 @@ export function HabitCard({ habit }: HabitCardProps) {
 
               {/* Habit Info */}
               <div className="flex-1 min-w-0 flex flex-col justify-center">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   {habit.icon && (
-                    <div className="flex items-center justify-center h-5 w-5 rounded-lg bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
+                    <div className="flex items-center justify-center h-4 w-4 rounded-md bg-white/10 dark:bg-white/5 backdrop-blur-sm shrink-0">
                       {IconMap[habit.icon] ? (
                         React.createElement(IconMap[habit.icon], {
-                          className: "h-3.5 w-3.5 text-primary",
+                          className: "h-3 w-3 text-primary",
                         })
                       ) : (
-                        <span className="text-xs leading-none">
+                        <span className="text-[10px] leading-none">
                           {habit.icon}
                         </span>
                       )}
                     </div>
                   )}
-                  <h3 className="font-semibold text-base leading-none tracking-tight">
+                  <h3 className="font-semibold text-sm leading-none tracking-tight">
                     {habit.name}
                   </h3>
                 </div>
                 {habit.description && (
-                  <p className="text-sm text-muted-foreground line-clamp-1 mt-1.5 leading-tight">
+                  <p className="text-xs text-muted-foreground line-clamp-1 mt-1 leading-tight">
                     {habit.description}
                   </p>
                 )}

@@ -61,7 +61,7 @@ export function HabitList({
             Create Habit
           </Button>
         )}
-      </div>
+      </div> 
     );
   }
 
