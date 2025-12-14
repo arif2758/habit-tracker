@@ -19,7 +19,7 @@ export function HabitList({
   emptyMessage = "No habits found.",
   onAddHabit,
 }: HabitListProps) {
-  const today = getToday(); 
+  const today = getToday();
 
   // Sort habits logic updated
   const sortedHabits = [...habits].sort((a, b) => {
@@ -39,7 +39,7 @@ export function HabitList({
     // আগে এখানে updatedAt ছিল, এখন createdAt ব্যবহার করা হচ্ছে
     const dateA = new Date(a.createdAt).getTime();
     const dateB = new Date(b.createdAt).getTime();
-    
+
     return dateA - dateB;
   });
 
@@ -61,15 +61,15 @@ export function HabitList({
             Create Habit
           </Button>
         )}
-      </div> 
+      </div>
     );
   }
 
   return (
-    <div className="grid gap-3 md:grid-cols-2 animate-slide-up">
+    <div className="grid gap-2 md:grid-cols-2 animate-slide-up">
       {sortedHabits.map((habit) => (
         <HabitCard key={habit._id} habit={habit} />
       ))}
     </div>
   );
-}  
+}
