@@ -6,15 +6,15 @@ import { format, addDays, startOfWeek, isSameDay, isToday } from "date-fns";
 
 interface WeekCalendarProps {
   selectedDate: Date;
-  onDateSelect: (date: Date) => void;  
-} 
+  onDateSelect: (date: Date) => void;
+}
 
 export function WeekCalendar({
   selectedDate,
   onDateSelect,
 }: WeekCalendarProps) {
-  const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
-  const weekDays = Array.from({  length: 7 }, (_, i) => addDays(weekStart, i));
+  const weekStart = startOfWeek(new Date(), { weekStartsOn: 6 });
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   return (
     <div className="w-full px-1">

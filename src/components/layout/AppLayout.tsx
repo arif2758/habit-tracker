@@ -23,7 +23,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-[100px]" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[100px]" />
-      </div>
+      </div> 
 
       {/* Header (Fixed at top) */}
       <Header onAddHabit={handleAddHabit} />

@@ -18,7 +18,7 @@ interface HabitListProps {
 export function HabitList({
   habits,
   selectedDate,
-  emptyMessage = "No habits found.",
+  emptyMessage = "No habits found.", 
   onAddHabit,
 }: HabitListProps) {
   const today = selectedDate || getToday();
