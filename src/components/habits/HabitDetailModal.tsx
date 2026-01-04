@@ -118,7 +118,7 @@ export function HabitDetailModal({
               )}
 
               <div className="flex-1 min-w-0">
-                <DialogTitle className="text-xl font-bold mb-1">
+                <DialogTitle className=" font-bold mb-1">
                   {habit.name}
                 </DialogTitle>
                 {habit.description && (
