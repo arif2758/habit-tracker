@@ -48,12 +48,14 @@ export function HabitDetailModal({
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const stats = useStatistics(habit || ({} as Habit));
 
-  if (!habit) return null; 
+  if (!habit) return null;
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-  const firstDayOfWeek = monthStart.getDay();
+
+  // Adjust first day to Saturday (0=Sat, 1=Sun, 2=Mon, ..., 6=Fri)
+  const firstDayOfWeek = (monthStart.getDay() + 1) % 7;
   const emptyCells = Array(firstDayOfWeek).fill(null);
 
   const isDateCompleted = (date: Date) => {
@@ -213,14 +215,14 @@ export function HabitDetailModal({
               {/* Calendar Grid */}
               <div className="rounded-2xl bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10 p-4">
                 <div className="grid grid-cols-7 gap-2" role="grid">
-                  {/* Day Headers */}
-                  {["S", "M", "T", "W", "T", "F", "S"].map((day, i) => (
+                  {/* Day Headers - Starting from Saturday */}
+                  {["S", "S", "M", "T", "W", "T", "F"].map((day, i) => (
                     <div
                       key={i}
                       className={cn(
                         "text-center text-xs font-bold pb-2",
-                        // Friday & Saturday more subtle
-                        i === 5 || i === 6
+                        // Saturday (0) & Friday (6) are weekends
+                        i === 0 || i === 6
                           ? "text-muted-foreground/40"
                           : "text-muted-foreground"
                       )}
@@ -260,10 +262,11 @@ export function HabitDetailModal({
                           today &&
                             !completed &&
                             "ring-2 ring-primary/50 ring-offset-2 ring-offset-background",
-                          // Weekend - gray/low opacity instead of red
+                          // Weekend - gray/low opacity
                           weekend &&
                             !completed &&
-                            "opacity-40 text-muted-foreground"
+                            "opacity-30 text-muted-foreground pointer-events-none",
+                          weekend && completed && "opacity-50"
                         )}
                         style={
                           completed
@@ -303,7 +306,7 @@ export function HabitDetailModal({
                   <span>Today</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-md bg-muted/50 opacity-40" />
+                  <div className="w-3 h-3 rounded-md bg-muted/50 opacity-30" />
                   <span>Weekend</span>
                 </div>
               </div>
@@ -321,7 +324,7 @@ export function HabitDetailModal({
 
 // Premium Stat Card - Eye-catching but Minimal
 interface PremiumStatCardProps {
-  icon: React.ElementType; // ✅ Changed from string to React component type
+  icon: React.ElementType;
   value: number;
   label: string;
   sublabel: string;
@@ -330,7 +333,7 @@ interface PremiumStatCardProps {
 }
 
 function PremiumStatCard({
-  icon: Icon, // ✅ Renamed for React component convention
+  icon: Icon,
   value,
   label,
   sublabel,
@@ -374,7 +377,7 @@ function PremiumStatCard({
       <div className="relative flex items-center justify-between">
         {/* Icon */}
         <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/60 dark:bg-white/10 backdrop-blur-sm border border-white/40 dark:border-white/20 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-          <Icon className="w-6 h-6" /> {/* ✅ Render Lucide icon component */}
+          <Icon className="w-6 h-6" />
         </div>
 
         {/* Value & Label */}
